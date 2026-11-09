@@ -1,0 +1,79 @@
+{
+  "users": {
+    "usr_codevengers_demo": {
+      "user_id": "usr_codevengers_demo",
+      "name": "Alex Rivera",
+      "email": "alex.rivera@handoveriq.dev",
+      "password_hash": "37c6573903ed08715bbfd1ffc53b3d994e72a494a6aa11dff9ed3ea086c0ded8",
+      "password_salt": "89408a79d0d8e953bd27f7312dabf7bc",
+      "role": "Staff Systems Architect",
+      "organization": "CodeVengers 2026 \u00b7 Platform Engineering",
+      "bio": "Leading platform architecture transitions, repository continuity audits, and onboarding dossiers across distributed engineering squads.",
+      "avatar_color": "#171717",
+      "plan_tier": "Enterprise Pitch Edition",
+      "created_at": "2026-10-15T09:30:00+00:00",
+      "last_login_at": "2026-11-09T09:08:57.607776+00:00",
+      "preferences": {
+        "default_ai_provider": "auto",
+        "export_format": "markdown",
+        "github_token_configured": false,
+        "github_token_masked": null,
+        "email_notifications": true,
+        "auto_save_dossiers": true
+      },
+      "bookmarked_repos": [
+        {
+          "repo_url": "https://github.com/tiangolo/fastapi",
+          "repo_name": "tiangolo/fastapi",
+          "notes": "Core API framework reference & async dependency injection handover audit",
+          "added_at": "2026-11-01T11:20:00+00:00"
+        },
+        {
+          "repo_url": "https://github.com/pallets/flask",
+          "repo_name": "pallets/flask",
+          "notes": "Legacy WSGI service comparison & maintainer transition study",
+          "added_at": "2026-11-04T15:45:00+00:00"
+        },
+        {
+          "repo_url": "https://github.com/octocat/Hello-World",
+          "repo_name": "octocat/Hello-World",
+          "notes": "Quick smoke-test repository for live pitch demonstrations",
+          "added_at": "2026-11-08T18:10:00+00:00"
+        }
+      ],
+      "saved_report_ids": [
+        "b30436d5-d236-45ab-908e-a22a79e111fa",
+        "2dce427d-3752-466e-8766-160e405eff22"
+      ],
+      "recent_activity": [
+        {
+          "id": "act_44f06e74",
+          "action": "Activated CodeVengers 2026 Pitch Demo Session",
+          "target": "Enterprise Pitch Edition",
+          "timestamp": "2026-11-09T09:08:57.607792+00:00"
+        },
+        {
+          "id": "act_1",
+          "action": "Synthesized 5-Pillar Handover Dossier",
+          "target": "octocat/Hello-World",
+          "timestamp": "2026-11-09T09:08:57.607260+00:00"
+        },
+        {
+          "id": "act_2",
+          "action": "Bookmarked repository for transition audit",
+          "target": "tiangolo/fastapi",
+          "timestamp": "2026-11-08T16:40:00+00:00"
+        },
+        {
+          "id": "act_3",
+          "action": "Configured Evidence-First Verification Policy",
+          "target": "CodeVengers 2026 Workspace",
+          "timestamp": "2026-11-06T10:15:00+00:00"
+        }
+      ]
+    }
+  },
+  "sessions": {
+    "hiq_QHVyYyPG-SJEkPfpHh0s-96xGvpfIsCl": "usr_codevengers_demo"
+  }
+}

@@ -1,0 +1,25 @@
+# Render Blueprint Specification for HandoverIQ Backend
+# See: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: handoveriq-backend
+    env: docker
+    dockerfilePath: backend/Dockerfile
+    dockerContext: backend
+    plan: free
+    region: oregon
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 8000
+      - key: ALLOWED_ORIGINS
+        value: "http://localhost:3000,https://handoveriq.vercel.app"
+      - key: AI_PROVIDER
+        value: auto
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false

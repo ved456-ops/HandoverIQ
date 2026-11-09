@@ -1,0 +1,220 @@
+{
+  "report_id": "2dce427d-3752-466e-8766-160e405eff22",
+  "repository_url": "https://github.com/octocat/Hello-World",
+  "repo_name": "octocat/Hello-World",
+  "generated_at": "2026-11-09T08:03:55.605281Z",
+  "generator": "evidence-synthesizer (deterministic engine)",
+  "executive_summary": "Handover report for octocat/Hello-World (General). Analyzed 3 recent commits across 3 contributors, 30 pull requests, and 19 issues.",
+  "ownership": {
+    "title": "Ownership & Core Modules",
+    "summary": "Key code ownership is concentrated across 3 active contributors.",
+    "insights": [
+      {
+        "title": "Primary Contributor: octocat",
+        "description": "octocat authored 1 of the last 3 commits analyzed, indicating deep code ownership.",
+        "impact": "info",
+        "evidence": [
+          {
+            "type": "commit",
+            "identifier": "7fd1a60",
+            "title": "Merge pull request #6 from Spaceghost/patch-1",
+            "url": "https://github.com/octocat/Hello-World/commit/7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
+            "snippet": null
+          }
+        ]
+      },
+      {
+        "title": "Primary Contributor: Spaceghost",
+        "description": "Spaceghost authored 1 of the last 3 commits analyzed, indicating deep code ownership.",
+        "impact": "info",
+        "evidence": [
+          {
+            "type": "commit",
+            "identifier": "7629413",
+            "title": "New line at end of file. --Signed off by Spaceghost",
+            "url": "https://github.com/octocat/Hello-World/commit/762941318ee16e59dabbacb1b4049eec22f0d303",
+            "snippet": null
+          }
+        ]
+      },
+      {
+        "title": "Primary Contributor: Cameron423698",
+        "description": "Cameron423698 authored 1 of the last 3 commits analyzed, indicating deep code ownership.",
+        "impact": "info",
+        "evidence": [
+          {
+            "type": "commit",
+            "identifier": "553c207",
+            "title": "first commit",
+            "url": "https://github.com/octocat/Hello-World/commit/553c2077f0edc3d5dc5d17262f6aa498e69d6f8e",
+            "snippet": null
+          }
+        ]
+      }
+    ]
+  },
+  "unfinished_work": {
+    "title": "Unfinished Work & In-Flight Tasks",
+    "summary": "Identified 18 open pull requests and 14 open issues requiring resolution or status check.",
+    "insights": [
+      {
+        "title": "Open Pull Request #11715: Update Hello World to Thai language",
+        "description": "In-progress pull request by bosssnkc. Review or merge status is required during transition.",
+        "impact": "high",
+        "evidence": [
+          {
+            "type": "pull_request",
+            "identifier": "#11715",
+            "title": "Update Hello World to Thai language",
+            "url": "https://github.com/octocat/Hello-World/pull/11715",
+            "snippet": null
+          }
+        ]
+      },
+      {
+        "title": "Open Pull Request #11677: Experiment 25 Contribution",
+        "description": "In-progress pull request by Priyavarsheni. Review or merge status is required during transition.",
+        "impact": "high",
+        "evidence": [
+          {
+            "type": "pull_request",
+            "identifier": "#11677",
+            "title": "Experiment 25 Contribution",
+            "url": "https://github.com/octocat/Hello-World/pull/11677",
+            "snippet": null
+          }
+        ]
+      },
+      {
+        "title": "Open Pull Request #123: Spanish",
+        "description": "In-progress pull request by Shature. Review or merge status is required during transition.",
+        "impact": "high",
+        "evidence": [
+          {
+            "type": "pull_request",
+            "identifier": "#123",
+            "title": "Spanish",
+            "url": "https://github.com/octocat/Hello-World/pull/123",
+            "snippet": null
+          }
+        ]
+      },
+      {
+        "title": "Active Issue #11714: test",
+        "description": "Open issue with 0 comments. Review to determine if this blocks incoming handover deliverables.",
+        "impact": "medium",
+        "evidence": [
+          {
+            "type": "issue",
+            "identifier": "#11714",
+            "title": "test",
+            "url": "https://github.com/octocat/Hello-World/issues/11714",
+            "snippet": null
+          }
+        ]
+      },
+      {
+        "title": "Active Issue #11713: Feat: Create a simple FastAPI ping/pong and math healthcheck API w",
+        "description": "Open issue with 0 comments. Review to determine if this blocks incoming handover deliverables.",
+        "impact": "medium",
+        "evidence": [
+          {
+            "type": "issue",
+            "identifier": "#11713",
+            "title": "Feat: Create a simple FastAPI ping/pong and math healthcheck API w",
+            "url": "https://github.com/octocat/Hello-World/issues/11713",
+            "snippet": null
+          }
+        ]
+      },
+      {
+        "title": "Active Issue #11712: Feat: Create a simple FastAPI ping/pong and math healthcheck API w",
+        "description": "Open issue with 0 comments. Review to determine if this blocks incoming handover deliverables.",
+        "impact": "medium",
+        "evidence": [
+          {
+            "type": "issue",
+            "identifier": "#11712",
+            "title": "Feat: Create a simple FastAPI ping/pong and math healthcheck API w",
+            "url": "https://github.com/octocat/Hello-World/issues/11712",
+            "snippet": null
+          }
+        ]
+      }
+    ]
+  },
+  "architectural_decisions": {
+    "title": "Architectural Decisions & Context",
+    "summary": "Recent major architectural modifications and functional enhancements extracted from commit history.",
+    "insights": [
+      {
+        "title": "Recent Development: Merge pull request #6 from Spaceghost/patch-1",
+        "description": "Baseline commit establishing current operational state.",
+        "impact": "info",
+        "evidence": [
+          {
+            "type": "commit",
+            "identifier": "7fd1a60",
+            "title": "Merge pull request #6 from Spaceghost/patch-1",
+            "url": "https://github.com/octocat/Hello-World/commit/7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
+            "snippet": null
+          }
+        ]
+      }
+    ]
+  },
+  "dependencies_and_setup": {
+    "title": "Dependencies & Setup Context",
+    "summary": "Core technologies configured around multi-language environment.",
+    "insights": [
+      {
+        "title": "Primary Ecosystem: Multi-language",
+        "description": "Repository primary stack is custom. Default development branch is 'master'.",
+        "impact": "info",
+        "evidence": [
+          {
+            "type": "file",
+            "identifier": "repo-spec",
+            "title": "octocat/Hello-World metadata",
+            "url": "https://github.com/octocat/Hello-World",
+            "snippet": null
+          }
+        ]
+      }
+    ]
+  },
+  "risks_and_debt": {
+    "title": "Risks, Tech Debt & Blockers",
+    "summary": "Identified potential handover risks, single points of failure, and active bug reports.",
+    "insights": []
+  },
+  "knowledge_gaps": [
+    {
+      "id": "custom-gap-1aeea0",
+      "category": "credentials",
+      "title": "Where is the API deployment key?",
+      "description": "Need to clarify secret rotation before offboarding.",
+      "suggested_action": "Add key to 1Password vault.",
+      "resolved": false,
+      "evidence": []
+    },
+    {
+      "id": "gap-6a0939",
+      "category": "operations",
+      "title": "Deployment Pipeline & Credential Access Verification",
+      "description": "Verify environment variables, deployment secrets, and production release access before developer departure.",
+      "suggested_action": "Schedule a 30-minute credentials and release pipeline handover session.",
+      "resolved": true,
+      "evidence": []
+    },
+    {
+      "id": "gap-549894",
+      "category": "architecture",
+      "title": "Unwritten Architectural Tradeoffs",
+      "description": "Check if undocumented assumptions exist behind recent pull requests and commits.",
+      "suggested_action": "Request departing maintainer to annotate key PRs or document top 3 architectural caveats.",
+      "resolved": false,
+      "evidence": []
+    }
+  ]
+}

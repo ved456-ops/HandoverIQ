@@ -1,0 +1,218 @@
+{
+  "report_id": "b30436d5-d236-45ab-908e-a22a79e111fa",
+  "repository_url": "https://github.com/pallets/flask",
+  "repo_name": "pallets/flask",
+  "generated_at": "2026-11-09T08:28:33.423077Z",
+  "generator": "evidence-synthesizer (deterministic engine)",
+  "executive_summary": "Handover report for pallets/flask (Python). Analyzed 30 recent commits across 3 contributors, 30 pull requests, and 18 issues.",
+  "ownership": {
+    "title": "Ownership & Core Modules",
+    "summary": "Key code ownership is concentrated across 3 active contributors.",
+    "insights": [
+      {
+        "title": "Primary Contributor: davidism",
+        "description": "davidism authored 27 of the last 30 commits analyzed, indicating deep code ownership.",
+        "impact": "info",
+        "evidence": [
+          {
+            "type": "commit",
+            "identifier": "49943b5",
+            "title": "add `versionchanged` for ctx signature change (#6176)",
+            "url": "https://github.com/pallets/flask/commit/49943b5a94413a530761350f04e896f76e8d620e",
+            "snippet": null
+          },
+          {
+            "type": "commit",
+            "identifier": "bfc8f98",
+            "title": "add `versionchanged` for ctx signature change",
+            "url": "https://github.com/pallets/flask/commit/bfc8f983871dcadf0492578d9ab72d951b34c19c",
+            "snippet": null
+          },
+          {
+            "type": "commit",
+            "identifier": "d04a0c1",
+            "title": "fix example typo",
+            "url": "https://github.com/pallets/flask/commit/d04a0c15a83c78186cf31dc5d226b3110321b9e5",
+            "snippet": null
+          }
+        ]
+      },
+      {
+        "title": "Primary Contributor: lkk7",
+        "description": "lkk7 authored 2 of the last 30 commits analyzed, indicating deep code ownership.",
+        "impact": "info",
+        "evidence": [
+          {
+            "type": "commit",
+            "identifier": "7203fea",
+            "title": "Fix IPv6 server name parsing",
+            "url": "https://github.com/pallets/flask/commit/7203feabf723edae0286ae5dc64fec8ac4c91735",
+            "snippet": null
+          },
+          {
+            "type": "commit",
+            "identifier": "de8429f",
+            "title": "Fix IPv6 session transactions",
+            "url": "https://github.com/pallets/flask/commit/de8429ffda8cfb54db175529e2bae72a24e1fa7e",
+            "snippet": null
+          }
+        ]
+      },
+      {
+        "title": "Primary Contributor: mgorny",
+        "description": "mgorny authored 1 of the last 30 commits analyzed, indicating deep code ownership.",
+        "impact": "info",
+        "evidence": [
+          {
+            "type": "commit",
+            "identifier": "5ce121d",
+            "title": "Replace the use of private `monkeypatch` fixture API",
+            "url": "https://github.com/pallets/flask/commit/5ce121dd841e2dc2594d0ed3954278f4101d3521",
+            "snippet": null
+          }
+        ]
+      }
+    ]
+  },
+  "unfinished_work": {
+    "title": "Unfinished Work & In-Flight Tasks",
+    "summary": "Identified 2 open pull requests and 1 open issues requiring resolution or status check.",
+    "insights": [
+      {
+        "title": "Open Pull Request #5918: automatic options as separate route",
+        "description": "In-progress pull request by davidism. Review or merge status is required during transition.",
+        "impact": "high",
+        "evidence": [
+          {
+            "type": "pull_request",
+            "identifier": "#5918",
+            "title": "automatic options as separate route",
+            "url": "https://github.com/pallets/flask/pull/5918",
+            "snippet": null
+          }
+        ]
+      },
+      {
+        "title": "Open Pull Request #5665: Workflow",
+        "description": "In-progress pull request by pgjones. Review or merge status is required during transition.",
+        "impact": "high",
+        "evidence": [
+          {
+            "type": "pull_request",
+            "identifier": "#5665",
+            "title": "Workflow",
+            "url": "https://github.com/pallets/flask/pull/5665",
+            "snippet": null
+          }
+        ]
+      },
+      {
+        "title": "Active Issue #6146: Add Cloudflare to Flask Hosting Platforms docs?",
+        "description": "Open issue with 4 comments. Review to determine if this blocks incoming handover deliverables.",
+        "impact": "medium",
+        "evidence": [
+          {
+            "type": "issue",
+            "identifier": "#6146",
+            "title": "Add Cloudflare to Flask Hosting Platforms docs?",
+            "url": "https://github.com/pallets/flask/issues/6146",
+            "snippet": null
+          }
+        ]
+      }
+    ]
+  },
+  "architectural_decisions": {
+    "title": "Architectural Decisions & Context",
+    "summary": "Recent major architectural modifications and functional enhancements extracted from commit history.",
+    "insights": [
+      {
+        "title": "Decision Context: drop support for Python 3.10 (#6168)",
+        "description": "Significant code modification recorded in commit history: 'drop support for Python 3.10 (#6168)'.",
+        "impact": "info",
+        "evidence": [
+          {
+            "type": "commit",
+            "identifier": "728c5e4",
+            "title": "drop support for Python 3.10 (#6168)",
+            "url": "https://github.com/pallets/flask/commit/728c5e440af704a786384159184f695cf04ecbe7",
+            "snippet": null
+          }
+        ]
+      },
+      {
+        "title": "Decision Context: drop support for Python 3.10",
+        "description": "Significant code modification recorded in commit history: 'drop support for Python 3.10'.",
+        "impact": "info",
+        "evidence": [
+          {
+            "type": "commit",
+            "identifier": "7689f98",
+            "title": "drop support for Python 3.10",
+            "url": "https://github.com/pallets/flask/commit/7689f98403e2c0b0bc8d1031e60f8cff2620e86a",
+            "snippet": null
+          }
+        ]
+      },
+      {
+        "title": "Decision Context: support query in methodview",
+        "description": "Significant code modification recorded in commit history: 'support query in methodview'.",
+        "impact": "info",
+        "evidence": [
+          {
+            "type": "commit",
+            "identifier": "2a8a38b",
+            "title": "support query in methodview",
+            "url": "https://github.com/pallets/flask/commit/2a8a38b051fc248865730bf3511bf2e2ea325e81",
+            "snippet": null
+          }
+        ]
+      }
+    ]
+  },
+  "dependencies_and_setup": {
+    "title": "Dependencies & Setup Context",
+    "summary": "Core technologies configured around Python environment.",
+    "insights": [
+      {
+        "title": "Primary Ecosystem: Python",
+        "description": "Repository primary stack is Python. Default development branch is 'main'.",
+        "impact": "info",
+        "evidence": [
+          {
+            "type": "file",
+            "identifier": "repo-spec",
+            "title": "pallets/flask metadata",
+            "url": "https://github.com/pallets/flask",
+            "snippet": null
+          }
+        ]
+      }
+    ]
+  },
+  "risks_and_debt": {
+    "title": "Risks, Tech Debt & Blockers",
+    "summary": "Identified potential handover risks, single points of failure, and active bug reports.",
+    "insights": []
+  },
+  "knowledge_gaps": [
+    {
+      "id": "gap-0baed5",
+      "category": "operations",
+      "title": "Deployment Pipeline & Credential Access Verification",
+      "description": "Verify environment variables, deployment secrets, and production release access before developer departure.",
+      "suggested_action": "Schedule a 30-minute credentials and release pipeline handover session.",
+      "resolved": false,
+      "evidence": []
+    },
+    {
+      "id": "gap-48a2f4",
+      "category": "architecture",
+      "title": "Unwritten Architectural Tradeoffs",
+      "description": "Check if undocumented assumptions exist behind recent pull requests and commits.",
+      "suggested_action": "Request departing maintainer to annotate key PRs or document top 3 architectural caveats.",
+      "resolved": false,
+      "evidence": []
+    }
+  ]
+}

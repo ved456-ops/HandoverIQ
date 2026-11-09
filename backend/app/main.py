@@ -8,7 +8,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.core.config import settings
-from app.routers import health, github, analysis, report
+from app.routers import health, github, analysis, report, auth
 
 app = FastAPI(
     title="HandoverIQ API",
@@ -17,7 +17,7 @@ app = FastAPI(
         "Connect a GitHub repository, analyse activity, and generate "
         "an evidence-linked handover report."
     ),
-    version="0.1.0",
+    version="0.2.0",
 )
 
 # ── CORS ──────────────────────────────────────────────────────────
@@ -26,6 +26,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origins,
+    allow_origin_regex=r"https?://.*",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -33,6 +34,7 @@ app.add_middleware(
 
 # ── Routers ───────────────────────────────────────────────────────
 app.include_router(health.router)
+app.include_router(auth.router)
 app.include_router(github.router)
 app.include_router(analysis.router)
 app.include_router(report.router)

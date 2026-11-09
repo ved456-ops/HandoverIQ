@@ -15,8 +15,10 @@ class Settings(BaseSettings):
     # GitHub
     github_token: str = ""
 
-    # Gemini
+    # AI Providers
+    ai_provider: str = "auto"              # "auto", "gemini", or "claude"
     gemini_api_key: str = ""
+    anthropic_api_key: str = ""
 
     # CORS — parsed as a list by splitting on commas
     allowed_origins: str = "http://localhost:3000"
