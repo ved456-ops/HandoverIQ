@@ -7,7 +7,8 @@ import MascotGuide from "@/components/MascotGuide";
 import "./globals.css";
 
 const API_BASE =
-  process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+  process.env.NEXT_PUBLIC_API_URL ??
+  "https://handoveriq-live-api-production.up.railway.app";
 
 export const metadata: Metadata = {
   title: "HandoverIQ — Evidence-linked engineering handovers",
