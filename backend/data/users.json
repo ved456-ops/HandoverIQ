@@ -12,7 +12,7 @@
       "avatar_color": "#171717",
       "plan_tier": "Enterprise Pitch Edition",
       "created_at": "2026-10-15T09:30:00+00:00",
-      "last_login_at": "2026-11-09T09:08:57.607776+00:00",
+      "last_login_at": "2026-11-09T17:47:27.501816+00:00",
       "preferences": {
         "default_ai_provider": "auto",
         "export_format": "markdown",
@@ -47,6 +47,24 @@
       ],
       "recent_activity": [
         {
+          "id": "act_42bdaac2",
+          "action": "Activated CodeVengers 2026 Pitch Demo Session",
+          "target": "Enterprise Pitch Edition",
+          "timestamp": "2026-11-09T17:47:27.501907+00:00"
+        },
+        {
+          "id": "act_3d29c722",
+          "action": "Signed in to workspace",
+          "target": "alex.rivera@handoveriq.dev",
+          "timestamp": "2026-11-09T17:43:02.198301+00:00"
+        },
+        {
+          "id": "act_2b4bf75b",
+          "action": "Signed in to workspace",
+          "target": "alex.rivera@handoveriq.dev",
+          "timestamp": "2026-11-09T17:42:58.869119+00:00"
+        },
+        {
           "id": "act_44f06e74",
           "action": "Activated CodeVengers 2026 Pitch Demo Session",
           "target": "Enterprise Pitch Edition",
@@ -74,6 +92,8 @@
     }
   },
   "sessions": {
-    "hiq_QHVyYyPG-SJEkPfpHh0s-96xGvpfIsCl": "usr_codevengers_demo"
+    "hiq_QHVyYyPG-SJEkPfpHh0s-96xGvpfIsCl": "usr_codevengers_demo",
+    "hiq_bMmcW6jFOyrTk4Sw1zSqsq2BFQoXRC4D": "usr_codevengers_demo",
+    "hiq_K-wmzgRKRswSXXO4UXGpqXRSYq0U8Ojk": "usr_codevengers_demo"
   }
 }

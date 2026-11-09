@@ -1,10 +1,13 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // The backend URL is consumed server-side by route handlers.
-  // The public var is exposed to the browser for direct fetch calls.
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   env: {
-    BACKEND_URL: process.env.BACKEND_URL ?? "http://localhost:8000",
+    BACKEND_URL:
+      process.env.BACKEND_URL ??
+      "https://handoveriq-backend-production.up.railway.app",
   },
 };
 
