@@ -108,8 +108,7 @@ export default function LandingPage() {
               <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
             </span>
             <span>Built by <strong>Team CodeVengers</strong>:</span>
-            <span className="font-bold text-emerald-700">Ved Wandile (Lead)</span>
-            <span className="text-[#8A8A85]">· Diptesh Patil · Prachi Patil · Ritisha Songire</span>
+            <span className="font-medium text-[#171717]">Ved Wandile, Diptesh Patil, Prachi Patil, Ritisha Songire</span>
           </div>
 
           <h1 className="animate-fadeIn-delayed text-4xl sm:text-5xl lg:text-[56px] font-semibold tracking-[-0.03em] leading-[1.05]">

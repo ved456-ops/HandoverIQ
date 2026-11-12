@@ -51,23 +51,18 @@ export default function RootLayout({
 
               {/* Team Members List - Ved Wandile 1st */}
               <div className="flex flex-wrap items-center justify-center gap-2">
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-emerald-400/40 text-xs font-medium text-white shadow-sm ring-1 ring-emerald-500/20">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
-                  <strong className="font-bold text-white">Ved Wandile</strong>
-                  <span className="text-[10px] text-emerald-300 font-mono">(Lead Full-Stack &amp; AI Architect)</span>
-                </div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-zinc-300">
-                  <span className="font-medium text-zinc-200">Diptesh Patil</span>
-                  <span className="text-[10px] text-zinc-400 font-mono">(Team Lead)</span>
-                </div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-zinc-300">
-                  <span className="font-medium text-zinc-200">Prachi Patil</span>
-                  <span className="text-[10px] text-zinc-400 font-mono">(Frontend &amp; QA)</span>
-                </div>
-                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-zinc-300">
-                  <span className="font-medium text-zinc-200">Ritisha Songire</span>
-                  <span className="text-[10px] text-zinc-400 font-mono">(Research &amp; Product)</span>
-                </div>
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-medium text-white shadow-sm">
+                  Ved Wandile
+                </span>
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-medium text-white shadow-sm">
+                  Diptesh Patil
+                </span>
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-medium text-white shadow-sm">
+                  Prachi Patil
+                </span>
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-medium text-white shadow-sm">
+                  Ritisha Songire
+                </span>
               </div>
             </div>
           </div>

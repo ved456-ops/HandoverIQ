@@ -98,8 +98,7 @@ export default function SiteHeader() {
           <span className="hidden xl:inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-black/[0.04] text-[#4A4A47] border border-black/[0.06]">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
             <span>Team CodeVengers:</span>
-            <strong className="text-[#171717] font-semibold">Ved Wandile (Lead)</strong>
-            <span className="text-[#8A8A85]">· Diptesh · Prachi · Ritisha</span>
+            <span className="text-[#171717] font-medium">Ved Wandile, Diptesh Patil, Prachi Patil, Ritisha Songire</span>
           </span>
         </div>
 

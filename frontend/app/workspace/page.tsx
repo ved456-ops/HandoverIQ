@@ -152,7 +152,7 @@ export default function WorkspacePage() {
           </span>
           <span className="hidden sm:inline text-[#8A8A85]">·</span>
           <span className="hidden sm:inline text-[11px] font-mono text-[#8A8A85]">
-            Built by <strong>Team CodeVengers</strong>: <span className="text-[#171717] font-bold">Ved Wandile (Lead)</span>, Diptesh Patil, Prachi Patil, Ritisha Songire
+            Built by <strong>Team CodeVengers</strong>: <span className="text-[#171717] font-medium">Ved Wandile, Diptesh Patil, Prachi Patil, Ritisha Songire</span>
           </span>
         </div>
 
