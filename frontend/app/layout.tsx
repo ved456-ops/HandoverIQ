@@ -34,6 +34,44 @@ export default function RootLayout({
         <MascotGuide />
 
         <footer className="mt-24 border-t border-black/[0.06] bg-white/60 backdrop-blur-sm">
+          {/* Team CodeVengers Showcase Banner */}
+          <div className="border-b border-black/[0.08] bg-gradient-to-r from-zinc-950 via-zinc-900 to-zinc-950 text-white">
+            <div className="mx-auto max-w-6xl px-4 sm:px-6 py-5 flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="space-y-1 text-center md:text-left">
+                <div className="flex items-center justify-center md:justify-start gap-2">
+                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="text-[11px] font-mono uppercase tracking-widest text-emerald-400 font-bold">
+                    CodersInPune Hackathon 2026 · Top 50 Finalist
+                  </span>
+                </div>
+                <h4 className="text-sm font-bold tracking-tight text-white">
+                  Built with passion by Team CodeVengers
+                </h4>
+              </div>
+
+              {/* Team Members List - Ved Wandile 1st */}
+              <div className="flex flex-wrap items-center justify-center gap-2">
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 border border-emerald-400/40 text-xs font-medium text-white shadow-sm ring-1 ring-emerald-500/20">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                  <strong className="font-bold text-white">Ved Wandile</strong>
+                  <span className="text-[10px] text-emerald-300 font-mono">(Lead Full-Stack &amp; AI Architect)</span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-zinc-300">
+                  <span className="font-medium text-zinc-200">Diptesh Patil</span>
+                  <span className="text-[10px] text-zinc-400 font-mono">(Team Lead)</span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-zinc-300">
+                  <span className="font-medium text-zinc-200">Prachi Patil</span>
+                  <span className="text-[10px] text-zinc-400 font-mono">(Frontend &amp; QA)</span>
+                </div>
+                <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-xs text-zinc-300">
+                  <span className="font-medium text-zinc-200">Ritisha Songire</span>
+                  <span className="text-[10px] text-zinc-400 font-mono">(Research &amp; Product)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className="mx-auto max-w-6xl px-4 sm:px-6 py-12 grid grid-cols-2 md:grid-cols-4 gap-8 text-sm">
             <div className="col-span-2 space-y-3">
               <Logo variant="lockup" heightClass="h-9" />
@@ -65,8 +103,8 @@ export default function RootLayout({
           </div>
           <div className="border-t border-black/[0.05]">
             <div className="mx-auto max-w-6xl px-4 sm:px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 text-[11px] text-[#8A8A85]">
-              <span>© 2026 HandoverIQ · Built by CodeVengers team</span>
-              <span>Built on the GitHub REST API · No fabricated insights</span>
+              <span>© 2026 HandoverIQ · Built by Team CodeVengers (Ved Wandile, Diptesh Patil, Prachi Patil, Ritisha Songire)</span>
+              <span>CodersInPune Hackathon 2026 · No fabricated insights</span>
             </div>
           </div>
         </footer>

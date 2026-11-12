@@ -91,9 +91,17 @@ export default function SiteHeader() {
       }`}
     >
       <div className="mx-auto max-w-6xl px-4 sm:px-6 h-16 flex items-center justify-between">
-        <Link href="/" aria-label="HandoverIQ home" className="shrink-0">
-          <Logo variant="lockup" heightClass="h-8 sm:h-9" />
-        </Link>
+        <div className="flex items-center gap-3 shrink-0">
+          <Link href="/" aria-label="HandoverIQ home" className="shrink-0">
+            <Logo variant="lockup" heightClass="h-8 sm:h-9" />
+          </Link>
+          <span className="hidden xl:inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-black/[0.04] text-[#4A4A47] border border-black/[0.06]">
+            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+            <span>Team CodeVengers:</span>
+            <strong className="text-[#171717] font-semibold">Ved Wandile (Lead)</strong>
+            <span className="text-[#8A8A85]">· Diptesh · Prachi · Ritisha</span>
+          </span>
+        </div>
 
         <nav className="hidden md:flex items-center gap-1 text-sm">
           {NAV.map((item) => {

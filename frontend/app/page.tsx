@@ -102,12 +102,14 @@ export default function LandingPage() {
       {/* ── HERO ─────────────────────────────────────────────────── */}
       <section className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center pt-4 sm:pt-10">
         <div className="space-y-7">
-          <div className="animate-fadeIn inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/80 px-3 py-1 text-xs text-[#4A4A47] shadow-sm">
+          <div className="animate-fadeIn inline-flex items-center gap-2 rounded-full border border-black/10 bg-white/80 px-3.5 py-1 text-xs text-[#4A4A47] shadow-sm flex-wrap">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
             </span>
-            Built by CodeVengers team
+            <span>Built by <strong>Team CodeVengers</strong>:</span>
+            <span className="font-bold text-emerald-700">Ved Wandile (Lead)</span>
+            <span className="text-[#8A8A85]">· Diptesh Patil · Prachi Patil · Ritisha Songire</span>
           </div>
 
           <h1 className="animate-fadeIn-delayed text-4xl sm:text-5xl lg:text-[56px] font-semibold tracking-[-0.03em] leading-[1.05]">

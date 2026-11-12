@@ -142,13 +142,17 @@ export default function WorkspacePage() {
     <div className="space-y-12 animate-fadeIn">
       {/* Top Breadcrumb & Live Engine Bar */}
       <div className="flex items-center justify-between flex-wrap gap-3 border-b border-[#EBEBE8] pb-4">
-        <div className="flex items-center gap-2 text-xs text-[#6B6B67]">
+        <div className="flex items-center gap-2 text-xs text-[#6B6B67] flex-wrap">
           <Link href="/" className="hover:text-[#171717] transition-colors">
             Home
           </Link>
           <span>/</span>
           <span className="font-semibold text-[#171717]">
             Handover Analyzer Workspace
+          </span>
+          <span className="hidden sm:inline text-[#8A8A85]">·</span>
+          <span className="hidden sm:inline text-[11px] font-mono text-[#8A8A85]">
+            Built by <strong>Team CodeVengers</strong>: <span className="text-[#171717] font-bold">Ved Wandile (Lead)</span>, Diptesh Patil, Prachi Patil, Ritisha Songire
           </span>
         </div>
 
