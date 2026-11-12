@@ -17,6 +17,8 @@ from app.services.report_storage import (
     update_report_gap,
 )
 
+from app.services.qa_service import AskRequest, AskResponse, answer_question
+
 router = APIRouter(prefix="/api/report", tags=["report"])
 
 
@@ -47,6 +49,17 @@ async def get_report_by_id(report_id: str) -> HandoverReport:
             detail=f"Handover report '{report_id}' not found.",
         )
     return report
+
+
+@router.post("/{report_id}/ask", response_model=AskResponse, summary="Ask questions about a handover report")
+async def ask_handover(report_id: str, body: AskRequest) -> AskResponse:
+    """Evidence-grounded Q&A over the report's commits, PRs, issues and gaps."""
+    report = get_report(report_id)
+    if not report:
+        raise HTTPException(status_code=404, detail=f"Handover report '{report_id}' not found.")
+    if not body.question.strip():
+        raise HTTPException(status_code=400, detail="Question must not be empty.")
+    return answer_question(report, body.question)
 
 
 @router.patch("/{report_id}/gap/{gap_id}", response_model=HandoverReport, summary="Update knowledge gap status")

@@ -531,6 +531,35 @@ export async function fetchReportById(reportId: string): Promise<HandoverReport>
   return res.json();
 }
 
+export type AskCitation = { type: string; label: string; title: string; url: string };
+export type AskResponse = {
+  answer: string;
+  citations: AskCitation[];
+  suggested_followups: string[];
+  grounded: boolean;
+};
+
+export async function askHandover(
+  reportId: string,
+  question: string
+): Promise<AskResponse> {
+  const res = await fetch(`${BASE_URL}/api/report/${reportId}/ask`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", ...getAuthHeaders() },
+    body: JSON.stringify({ question }),
+    cache: "no-store",
+  });
+  if (!res.ok) {
+    let detail = `Question failed (${res.status})`;
+    try {
+      const err: ApiError = await res.json();
+      if (err.detail) detail = err.detail;
+    } catch {}
+    throw new Error(detail);
+  }
+  return res.json();
+}
+
 export async function fetchAllReports(): Promise<ReportSummary[]> {
   const res = await fetch(`${BASE_URL}/api/report`, { cache: "no-store" });
   if (!res.ok) return [];

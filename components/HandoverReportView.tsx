@@ -5,6 +5,7 @@ import Link from "next/link";
 import type { HandoverReport, HandoverSection } from "@/lib/api";
 import InsightCard from "@/components/InsightCard";
 import MissingInfoPanel from "@/components/MissingInfoPanel";
+import AskHandoverChat from "@/components/AskHandoverChat";
 import { relativeDate } from "@/lib/utils";
 
 type Props = {
@@ -187,6 +188,9 @@ export default function HandoverReportView({
           </section>
         ))}
       </div>
+
+      {/* Ask the Handover (RAG chat) */}
+      <AskHandoverChat reportId={report.report_id} />
 
       {/* Knowledge Gaps & Action Items */}
       <MissingInfoPanel
