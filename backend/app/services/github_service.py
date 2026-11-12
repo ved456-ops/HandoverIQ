@@ -12,6 +12,7 @@ Design rules:
 from __future__ import annotations
 
 import re
+from datetime import datetime, timezone
 from typing import Optional
 
 import httpx
@@ -23,6 +24,7 @@ from app.models.github_models import (
     CommitItem,
     IssueItem,
     PullRequestItem,
+    ContributorStat,
     RepoInfo,
 )
 
@@ -105,7 +107,50 @@ def _check_response(response: httpx.Response, context: str) -> None:
 
 # ── Main service function ─────────────────────────────────────────────────────
 
-async def analyze_repository(repository_url: str) -> AnalyzeResponse:
+def _day_bound(value: Optional[str], end: bool) -> Optional[datetime]:
+    if not value or not value.strip():
+        return None
+    try:
+        d = datetime.strptime(value.strip(), "%Y-%m-%d")
+    except ValueError as exc:
+        raise ValueError(f"Invalid date '{value}'. Use YYYY-MM-DD.") from exc
+    if end:
+        d = d.replace(hour=23, minute=59, second=59)
+    return d.replace(tzinfo=timezone.utc)
+
+
+def _in_window(dt: Optional[datetime], since: Optional[datetime], until: Optional[datetime]) -> bool:
+    if dt is None:
+        return True
+    if dt.tzinfo is None:
+        dt = dt.replace(tzinfo=timezone.utc)
+    return (since is None or dt >= since) and (until is None or dt <= until)
+
+
+async def list_contributors(repository_url: str) -> list[ContributorStat]:
+    """Top contributors by recent commit count (for the scope picker)."""
+    owner, repo = _parse_repo_url(repository_url)
+    async with _build_client() as client:
+        resp = await client.get(f"/repos/{owner}/{repo}/commits", params={"per_page": 100})
+        _check_response(resp, "commits")
+        commits = [CommitItem.model_validate(c) for c in resp.json()]
+    counts: dict[str, int] = {}
+    for c in commits:
+        name = c.author.login if c.author else c.commit.author.name
+        counts[name] = counts.get(name, 0) + 1
+    total = sum(counts.values()) or 1
+    return [
+        ContributorStat(login=k, commits=v, share=round(v / total, 3))
+        for k, v in sorted(counts.items(), key=lambda x: -x[1])[:15]
+    ]
+
+
+async def analyze_repository(
+    repository_url: str,
+    contributor: Optional[str] = None,
+    since: Optional[str] = None,
+    until: Optional[str] = None,
+) -> AnalyzeResponse:
     """
     Fetch repository metadata, recent commits, pull requests, and issues
     from the GitHub REST API.
@@ -115,6 +160,12 @@ async def analyze_repository(repository_url: str) -> AnalyzeResponse:
     with human-readable messages that the router forwards to the client.
     """
     owner, repo = _parse_repo_url(repository_url)
+    contributor = (contributor or "").strip().lstrip("@") or None
+    since_dt = _day_bound(since, end=False)
+    until_dt = _day_bound(until, end=True)
+    if since_dt and until_dt and since_dt > until_dt:
+        raise ValueError("'since' date must be on or before 'until' date.")
+    scoped = bool(contributor or since_dt or until_dt)
 
     async with _build_client() as client:
         # 1. Repository metadata
@@ -128,7 +179,19 @@ async def analyze_repository(repository_url: str) -> AnalyzeResponse:
             params={"per_page": MAX_COMMITS, "page": 1},
         )
         _check_response(commits_resp, "commits")
-        commits = [CommitItem.model_validate(c) for c in commits_resp.json()]
+        team_commits = [CommitItem.model_validate(c) for c in commits_resp.json()]
+        commits = team_commits
+        if scoped:
+            cparams: dict = {"per_page": MAX_COMMITS, "page": 1}
+            if contributor:
+                cparams["author"] = contributor
+            if since_dt:
+                cparams["since"] = since_dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+            if until_dt:
+                cparams["until"] = until_dt.strftime("%Y-%m-%dT%H:%M:%SZ")
+            sc_resp = await client.get(f"/repos/{owner}/{repo}/commits", params=cparams)
+            _check_response(sc_resp, "scoped commits")
+            commits = [CommitItem.model_validate(c) for c in sc_resp.json()]
 
         # 3. Pull requests — fetch both open and closed
         prs: list[PullRequestItem] = []
@@ -151,6 +214,12 @@ async def analyze_repository(repository_url: str) -> AnalyzeResponse:
         raw_issues = [i for i in issues_resp.json() if "pull_request" not in i]
         issues = [IssueItem.model_validate(i) for i in raw_issues]
 
+    if scoped:
+        def _mine(u) -> bool:
+            return not contributor or (u is not None and u.login.lower() == contributor.lower())
+        prs = [p for p in prs if _mine(p.user) and _in_window(p.updated_at, since_dt, until_dt)]
+        issues = [i for i in issues if _mine(i.user) and _in_window(i.updated_at, since_dt, until_dt)]
+
     # ── Activity counts ───────────────────────────────────────────────────────
     activity = ActivityCounts(
         commits_fetched=len(commits),
@@ -169,4 +238,6 @@ async def analyze_repository(repository_url: str) -> AnalyzeResponse:
         pull_requests=prs,
         issues=issues,
         activity=activity,
+        scope={"contributor": contributor, "since": since or None, "until": until or None} if scoped else None,
+        team_commits=team_commits,
     )

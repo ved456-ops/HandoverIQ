@@ -10,7 +10,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, Field
 
 
 # ── Shared ───────────────────────────────────────────────────────────────────
@@ -125,6 +125,15 @@ class ActivityCounts(BaseModel):
 class AnalyzeRequest(BaseModel):
     """Body accepted by POST /api/github/analyze."""
     repository_url: str
+    contributor: Optional[str] = None      # GitHub username scope
+    since: Optional[str] = None            # YYYY-MM-DD
+    until: Optional[str] = None            # YYYY-MM-DD
+
+
+class ContributorStat(BaseModel):
+    login: str
+    commits: int
+    share: float
 
 
 class AnalyzeResponse(BaseModel):
@@ -136,3 +145,6 @@ class AnalyzeResponse(BaseModel):
     pull_requests: list[PullRequestItem]
     issues: list[IssueItem]
     activity: ActivityCounts
+    scope: Optional[dict] = None
+    # Unfiltered recent commits used for bus-factor math (never sent to clients)
+    team_commits: list[CommitItem] = Field(default_factory=list, exclude=True)

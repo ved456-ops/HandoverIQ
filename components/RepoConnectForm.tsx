@@ -1,9 +1,10 @@
 "use client";
 
 import { FormEvent, useState } from "react";
+import { fetchContributors, type AnalysisScope, type ContributorStat } from "@/lib/api";
 
 type Props = {
-  onSubmit: (url: string) => void;
+  onSubmit: (url: string, scope?: AnalysisScope) => void;
   loading: boolean;
 };
 
@@ -19,6 +20,25 @@ const QUICK_REPOS = [
 export default function RepoConnectForm({ onSubmit, loading }: Props) {
   const [value, setValue] = useState("");
   const [validationError, setValidationError] = useState("");
+  const [showScope, setShowScope] = useState(false);
+  const [contributor, setContributor] = useState("");
+  const [since, setSince] = useState("");
+  const [until, setUntil] = useState("");
+  const [contributors, setContributors] = useState<ContributorStat[]>([]);
+
+  function currentScope(): AnalysisScope {
+    const sc: AnalysisScope = {};
+    if (contributor.trim()) sc.contributor = contributor.trim().replace(/^@/, "");
+    if (since) sc.since = since;
+    if (until) sc.until = until;
+    return sc;
+  }
+
+  async function loadContributors() {
+    const v = value.trim();
+    if (!v || validate(v)) return;
+    setContributors(await fetchContributors(v));
+  }
 
   function validate(url: string): string {
     if (!url.trim())
@@ -39,15 +59,19 @@ export default function RepoConnectForm({ onSubmit, loading }: Props) {
       setValidationError(err);
       return;
     }
+    if (since && until && since > until) {
+      setValidationError("'Since' date must be on or before 'Until' date.");
+      return;
+    }
     setValidationError("");
-    onSubmit(value.trim());
+    onSubmit(value.trim(), currentScope());
   }
 
   function handleQuickSelect(repoUrl: string) {
     if (loading) return;
     setValue(repoUrl);
     setValidationError("");
-    onSubmit(repoUrl);
+    onSubmit(repoUrl, currentScope());
   }
 
   return (
@@ -110,6 +134,86 @@ export default function RepoConnectForm({ onSubmit, loading }: Props) {
         {validationError && (
           <p className="text-xs text-red-600 px-1">{validationError}</p>
         )}
+
+        {/* Scope by departing contributor & date window */}
+        <div className="px-1">
+          <button
+            type="button"
+            onClick={() => {
+              setShowScope(!showScope);
+              if (!showScope) loadContributors();
+            }}
+            className="text-xs font-medium text-[#4A4A47] hover:text-[#171717] transition-colors"
+          >
+            {showScope ? "▾" : "▸"} Scope by departing contributor &amp; date range
+            {(contributor || since || until) && (
+              <span className="ml-2 text-[10px] font-mono px-1.5 py-0.5 rounded bg-amber-50 border border-amber-200 text-amber-800">
+                scoped
+              </span>
+            )}
+          </button>
+          {showScope && (
+            <div className="mt-2.5 grid grid-cols-1 sm:grid-cols-3 gap-2.5 rounded-xl border border-[#EBEBE8] bg-[#FAFAF9] p-3">
+              <label className="space-y-1 text-[11px] text-[#6B6B67]">
+                Departing contributor (GitHub username)
+                <input
+                  list="contributor-options"
+                  value={contributor}
+                  onChange={(e) => setContributor(e.target.value)}
+                  onFocus={loadContributors}
+                  placeholder="e.g. octocat"
+                  disabled={loading}
+                  className="w-full rounded-lg border border-[#E5E5E2] bg-white px-2.5 py-1.5 text-xs font-mono text-[#171717] focus:outline-none focus:border-[#171717]"
+                />
+                <datalist id="contributor-options">
+                  {contributors.map((c) => (
+                    <option key={c.login} value={c.login}>
+                      {c.commits} recent commits
+                    </option>
+                  ))}
+                </datalist>
+              </label>
+              <label className="space-y-1 text-[11px] text-[#6B6B67]">
+                Since
+                <input
+                  type="date"
+                  value={since}
+                  onChange={(e) => setSince(e.target.value)}
+                  disabled={loading}
+                  className="w-full rounded-lg border border-[#E5E5E2] bg-white px-2.5 py-1.5 text-xs text-[#171717] focus:outline-none focus:border-[#171717]"
+                />
+              </label>
+              <label className="space-y-1 text-[11px] text-[#6B6B67]">
+                Until
+                <input
+                  type="date"
+                  value={until}
+                  onChange={(e) => setUntil(e.target.value)}
+                  disabled={loading}
+                  className="w-full rounded-lg border border-[#E5E5E2] bg-white px-2.5 py-1.5 text-xs text-[#171717] focus:outline-none focus:border-[#171717]"
+                />
+              </label>
+              {contributors.length > 0 && (
+                <div className="sm:col-span-3 flex flex-wrap gap-1.5">
+                  {contributors.slice(0, 6).map((c) => (
+                    <button
+                      key={c.login}
+                      type="button"
+                      onClick={() => setContributor(c.login)}
+                      className={`text-[11px] font-mono px-2 py-0.5 rounded-full border transition-colors ${
+                        contributor === c.login
+                          ? "bg-[#171717] text-white border-[#171717]"
+                          : "border-[#E5E5E2] bg-white text-[#4A4A47] hover:border-[#171717]"
+                      }`}
+                    >
+                      @{c.login} · {Math.round(c.share * 100)}%
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </form>
 
       {/* Quick-try presets */}

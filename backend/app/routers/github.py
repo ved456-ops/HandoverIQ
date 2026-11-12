@@ -9,7 +9,7 @@ Endpoints:
 from fastapi import APIRouter, HTTPException, status
 
 from app.models.github_models import AnalyzeRequest, AnalyzeResponse
-from app.services.github_service import analyze_repository
+from app.services.github_service import analyze_repository, list_contributors
 
 router = APIRouter(prefix="/api/github", tags=["github"])
 
@@ -32,7 +32,7 @@ async def analyze(body: AnalyzeRequest) -> AnalyzeResponse:
     Returns real data from the GitHub REST API.
     """
     try:
-        return await analyze_repository(body.repository_url)
+        return await analyze_repository(body.repository_url, body.contributor, body.since, body.until)
 
     except ValueError as exc:
         # Bad input — the URL could not be parsed
@@ -61,6 +61,20 @@ async def analyze(body: AnalyzeRequest) -> AnalyzeResponse:
             status_code=status.HTTP_502_BAD_GATEWAY,
             detail=f"GitHub API error: {exc}",
         ) from exc
+
+
+@router.get("/contributors", summary="List top recent contributors of a repository")
+async def contributors(repo: str):
+    try:
+        return await list_contributors(repo)
+    except ValueError as exc:
+        raise HTTPException(status_code=422, detail=str(exc)) from exc
+    except LookupError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+    except PermissionError as exc:
+        raise HTTPException(status_code=429, detail=str(exc)) from exc
+    except Exception as exc:
+        raise HTTPException(status_code=502, detail=f"GitHub API error: {exc}") from exc
 
 
 # ── Phase 1 stubs kept intentionally ─────────────────────────────────────────

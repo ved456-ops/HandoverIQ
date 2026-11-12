@@ -199,6 +199,7 @@ export type ActivityCounts = {
 };
 
 export type AnalyzeResponse = {
+  scope?: { contributor?: string | null; since?: string | null; until?: string | null } | null;
   source: string;          // always "github_rest_api_v3" — never fake data
   repository_url: string;
   repo: RepoInfo;
@@ -241,7 +242,36 @@ export type KnowledgeGap = {
   evidence: EvidenceItem[];
 };
 
+export type ReadinessScore = {
+  overall: number;
+  band: "ready" | "at_risk" | "not_ready";
+  bus_factor: number;
+  hygiene: number;
+  clarity: number;
+  gap_resolution: number;
+  facts: {
+    top_owner?: string | null;
+    top_owner_share?: number;
+    contributors?: number;
+    commits_sampled?: number;
+    stale_open_prs?: number;
+    open_bugs?: number;
+    gaps_resolved?: number;
+    gaps_total?: number;
+  };
+};
+
+export type AnalysisScope = {
+  contributor?: string;
+  since?: string;
+  until?: string;
+};
+
+export type ContributorStat = { login: string; commits: number; share: number };
+
 export type HandoverReport = {
+  scope?: AnalysisScope | null;
+  readiness?: ReadinessScore | null;
   report_id: string;
   repository_url: string;
   repo_name: string;
@@ -462,8 +492,22 @@ export async function logoutAccount(): Promise<void> {
 
 // ── Repository & Report API Functions ─────────────────────────────
 
+export async function fetchContributors(repo: string): Promise<ContributorStat[]> {
+  try {
+    const res = await fetch(
+      `${BASE_URL}/api/github/contributors?repo=${encodeURIComponent(repo)}`,
+      { cache: "no-store" }
+    );
+    if (!res.ok) return [];
+    return res.json();
+  } catch {
+    return [];
+  }
+}
+
 export async function analyzeRepository(
-  repositoryUrl: string
+  repositoryUrl: string,
+  scope: AnalysisScope = {}
 ): Promise<AnalyzeResponse> {
   const res = await fetch(`${BASE_URL}/api/github/analyze`, {
     method: "POST",
@@ -471,7 +515,7 @@ export async function analyzeRepository(
       "Content-Type": "application/json",
       ...getAuthHeaders(),
     },
-    body: JSON.stringify({ repository_url: repositoryUrl }),
+    body: JSON.stringify({ repository_url: repositoryUrl, ...scope }),
     cache: "no-store",
   });
 
@@ -490,7 +534,8 @@ export async function analyzeRepository(
 }
 
 export async function generateHandoverReport(
-  repositoryUrl: string
+  repositoryUrl: string,
+  scope: AnalysisScope = {}
 ): Promise<HandoverReport> {
   const res = await fetch(`${BASE_URL}/api/analysis/generate`, {
     method: "POST",
@@ -498,7 +543,7 @@ export async function generateHandoverReport(
       "Content-Type": "application/json",
       ...getAuthHeaders(),
     },
-    body: JSON.stringify({ repository_url: repositoryUrl }),
+    body: JSON.stringify({ repository_url: repositoryUrl, ...scope }),
     cache: "no-store",
   });
 

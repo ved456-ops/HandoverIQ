@@ -37,7 +37,9 @@ async def generate_report(
     """
     try:
         # Step 1: Collect actual GitHub data
-        github_data = await analyze_repository(body.repository_url)
+        github_data = await analyze_repository(
+            body.repository_url, body.contributor, body.since, body.until
+        )
 
         # Step 2: Generate evidence-linked handover report
         report = await generate_handover_report(github_data)

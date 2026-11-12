@@ -403,6 +403,63 @@ def _synthesize_deterministic(data: AnalyzeResponse) -> dict[str, Any]:
     }
 
 
+# ── Readiness / Bus-Factor sub-scores ────────────────────────────────────────
+
+def compute_readiness_inputs(data: AnalyzeResponse) -> dict[str, Any]:
+    """Static sub-scores (0-100) derived from real repository activity."""
+    now = datetime.now(timezone.utc)
+    commits = data.team_commits or data.commits
+
+    # Bus factor: how concentrated is authorship across recent commits?
+    counts: dict[str, int] = {}
+    for c in commits:
+        name = c.author.login if c.author else c.commit.author.name
+        counts[name] = counts.get(name, 0) + 1
+    total = sum(counts.values())
+    if total:
+        top_owner, top_n = max(counts.items(), key=lambda x: x[1])
+        share = top_n / total
+        bus = round(max(0.0, min(100.0, (1 - share) * 100 / 0.6)))
+    else:
+        top_owner, share, bus = None, 0.0, 50
+
+    # Hygiene: stale open PRs and open bugs
+    stale = 0
+    for p in data.pull_requests:
+        if p.state == "open":
+            upd = p.updated_at if p.updated_at.tzinfo else p.updated_at.replace(tzinfo=timezone.utc)
+            if (now - upd).days > 30:
+                stale += 1
+    open_bugs = sum(
+        1 for i in data.issues
+        if i.state == "open" and any("bug" in str(l).lower() for l in i.labels)
+    )
+    hygiene = max(0, 100 - min(60, stale * 15) - min(40, open_bugs * 8))
+
+    # Clarity: descriptive commit messages + PRs with a description
+    descriptive = sum(1 for c in data.commits if len(c.commit.message.split("\n")[0].strip()) >= 20)
+    commit_ratio = descriptive / len(data.commits) if data.commits else 0.5
+    if data.pull_requests:
+        pr_ratio = sum(1 for p in data.pull_requests if (p.body or "").strip()) / len(data.pull_requests)
+        clarity = round(100 * (0.5 * commit_ratio + 0.5 * pr_ratio))
+    else:
+        clarity = round(100 * commit_ratio)
+
+    return {
+        "bus_factor": bus,
+        "hygiene": hygiene,
+        "clarity": clarity,
+        "facts": {
+            "top_owner": top_owner,
+            "top_owner_share": round(share, 3),
+            "contributors": len(counts),
+            "commits_sampled": total,
+            "stale_open_prs": stale,
+            "open_bugs": open_bugs,
+        },
+    }
+
+
 # ── Main Entrypoint ──────────────────────────────────────────────────────────
 
 async def generate_handover_report(data: AnalyzeResponse) -> HandoverReport:
@@ -444,13 +501,24 @@ async def generate_handover_report(data: AnalyzeResponse) -> HandoverReport:
         generator_name = "evidence-synthesizer (deterministic engine)"
 
     # Assemble validated HandoverReport
+    exec_summary = raw_report.get("executive_summary", "Handover intelligence report.")
+    if data.scope:
+        parts = []
+        if data.scope.get("contributor"):
+            parts.append(f"contributor @{data.scope['contributor']}")
+        if data.scope.get("since") or data.scope.get("until"):
+            parts.append(f"window {data.scope.get('since') or 'start'} to {data.scope.get('until') or 'today'}")
+        exec_summary = f"[Scoped handover: {', '.join(parts)}] " + exec_summary
+
     return HandoverReport(
         report_id=str(uuid.uuid4()),
+        scope=data.scope,
+        readiness_inputs=compute_readiness_inputs(data),
         repository_url=data.repository_url,
         repo_name=data.repo.full_name,
         generated_at=datetime.now(timezone.utc),
         generator=generator_name,
-        executive_summary=raw_report.get("executive_summary", "Handover intelligence report."),
+        executive_summary=exec_summary,
         ownership=HandoverSection.model_validate(raw_report.get("ownership", {"title": "Ownership", "summary": "", "insights": []})),
         unfinished_work=HandoverSection.model_validate(raw_report.get("unfinished_work", {"title": "Unfinished Work", "summary": "", "insights": []})),
         architectural_decisions=HandoverSection.model_validate(raw_report.get("architectural_decisions", {"title": "Architectural Decisions", "summary": "", "insights": []})),

@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import type { HandoverReport, HandoverSection } from "@/lib/api";
+import type { HandoverReport, HandoverSection, KnowledgeGap } from "@/lib/api";
+import ReadinessCard from "@/components/ReadinessCard";
 import InsightCard from "@/components/InsightCard";
 import MissingInfoPanel from "@/components/MissingInfoPanel";
 import AskHandoverChat from "@/components/AskHandoverChat";
@@ -21,6 +22,7 @@ export default function HandoverReportView({
 }: Props) {
   const [copiedMd, setCopiedMd] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
+  const [gaps, setGaps] = useState<KnowledgeGap[]>(report.knowledge_gaps);
 
   const sections: { key: string; number: string; data: HandoverSection }[] = [
     { key: "ownership", number: "01", data: report.ownership },
@@ -93,6 +95,16 @@ export default function HandoverReportView({
               <span className="text-xs font-mono px-2.5 py-0.5 rounded-md border border-zinc-200 bg-zinc-50 text-zinc-700 font-medium">
                 {report.repo_name}
               </span>
+              {report.scope?.contributor && (
+                <span className="text-xs font-mono px-2.5 py-0.5 rounded-md border border-amber-200 bg-amber-50 text-amber-800 font-medium">
+                  @{report.scope.contributor}
+                </span>
+              )}
+              {(report.scope?.since || report.scope?.until) && (
+                <span className="text-xs font-mono px-2.5 py-0.5 rounded-md border border-amber-200 bg-amber-50 text-amber-800 font-medium">
+                  {report.scope?.since || "start"} → {report.scope?.until || "today"}
+                </span>
+              )}
             </div>
             <h2 className="text-2xl font-bold tracking-tight text-zinc-900">
               Engineering Transition Report
@@ -149,6 +161,9 @@ export default function HandoverReportView({
         </div>
       </div>
 
+      {/* Readiness & Bus-Factor Score */}
+      {report.readiness && <ReadinessCard readiness={report.readiness} gaps={gaps} />}
+
       {/* 5 Core Pillars */}
       <div className="space-y-5">
         {sections.map(({ key, number, data }) => (
@@ -196,6 +211,7 @@ export default function HandoverReportView({
       <MissingInfoPanel
         gaps={report.knowledge_gaps}
         reportId={report.report_id}
+        onUpdate={setGaps}
       />
     </div>
   );

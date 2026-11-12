@@ -9,6 +9,7 @@ import {
   fetchAllReports,
   getStoredUser,
   generateHandoverReport,
+  type AnalysisScope,
   type AnalyzeResponse,
   type HandoverReport,
   type HealthResponse,
@@ -49,8 +50,10 @@ export default function WorkspacePage() {
     null
   );
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [scope, setScope] = useState<AnalysisScope>({});
 
-  async function handleAnalyze(url: string) {
+  async function handleAnalyze(url: string, newScope: AnalysisScope = {}) {
+    setScope(newScope);
     setStep("fetching_repo");
     setRepoData(null);
     setHandoverReport(null);
@@ -58,7 +61,7 @@ export default function WorkspacePage() {
     setBookmarkFeedback("");
 
     try {
-      const data = await analyzeRepository(url);
+      const data = await analyzeRepository(url, newScope);
       setRepoData(data);
       setStep("ready_to_generate");
     } catch (err: unknown) {
@@ -97,7 +100,7 @@ export default function WorkspacePage() {
     setErrorMessage("");
 
     try {
-      const report = await generateHandoverReport(repoData.repository_url);
+      const report = await generateHandoverReport(repoData.repository_url, scope);
       setHandoverReport(report);
       setStep("report_ready");
       loadRecentReports();
@@ -285,6 +288,19 @@ export default function WorkspacePage() {
                 </h3>
               </div>
               <p className="text-xs text-[#A3A39E]">
+                {repoData.scope && (
+                  <span className="text-amber-300 font-mono">
+                    [Scoped:{" "}
+                    {[
+                      repoData.scope.contributor && `@${repoData.scope.contributor}`,
+                      (repoData.scope.since || repoData.scope.until) &&
+                        `${repoData.scope.since || "start"} → ${repoData.scope.until || "today"}`,
+                    ]
+                      .filter(Boolean)
+                      .join(" · ")}
+                    ]{" "}
+                  </span>
+                )}
                 Collected {repoData.activity.commits_fetched} commits,{" "}
                 {repoData.activity.pull_requests_fetched} pull requests, and{" "}
                 {repoData.activity.issues_fetched} issues from{" "}
