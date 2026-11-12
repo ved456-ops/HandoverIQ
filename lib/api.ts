@@ -200,6 +200,7 @@ export type ActivityCounts = {
 
 export type AnalyzeResponse = {
   scope?: { contributor?: string | null; since?: string | null; until?: string | null } | null;
+  supplementary_notes?: string | null;
   source: string;          // always "github_rest_api_v3" — never fake data
   repository_url: string;
   repo: RepoInfo;
@@ -212,7 +213,7 @@ export type AnalyzeResponse = {
 // ── Handover Report Types ─────────────────────────────────────────
 
 export type EvidenceItem = {
-  type: "commit" | "pull_request" | "issue" | "file";
+  type: "commit" | "pull_request" | "issue" | "file" | "note" | string;
   identifier: string;
   title: string;
   url: string;
@@ -265,6 +266,7 @@ export type AnalysisScope = {
   contributor?: string;
   since?: string;
   until?: string;
+  supplementary_notes?: string;
 };
 
 export type ContributorStat = { login: string; commits: number; share: number };
@@ -272,6 +274,7 @@ export type ContributorStat = { login: string; commits: number; share: number };
 export type HandoverReport = {
   scope?: AnalysisScope | null;
   readiness?: ReadinessScore | null;
+  supplementary_notes?: string | null;
   report_id: string;
   repository_url: string;
   repo_name: string;

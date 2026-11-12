@@ -2,6 +2,7 @@
 from fastapi import APIRouter
 from app.core.config import settings
 from app.services.report_storage import list_reports
+from app.services.db import storage_info
 
 router = APIRouter(tags=["health"])
 
@@ -26,4 +27,5 @@ async def health() -> dict:
         "ai_providers_available": configured_providers,
         "active_ai_provider": settings.ai_provider,
         "reports_saved": len(list_reports()),
+        "storage": storage_info(),
     }

@@ -21,17 +21,42 @@ export default function RepoConnectForm({ onSubmit, loading }: Props) {
   const [value, setValue] = useState("");
   const [validationError, setValidationError] = useState("");
   const [showScope, setShowScope] = useState(false);
+  const [showNotes, setShowNotes] = useState(false);
   const [contributor, setContributor] = useState("");
   const [since, setSince] = useState("");
   const [until, setUntil] = useState("");
+  const [notes, setNotes] = useState("");
+  const [uploadedFileName, setUploadedFileName] = useState("");
   const [contributors, setContributors] = useState<ContributorStat[]>([]);
+
+  const SAMPLE_SLACK_THREAD = `[#eng-handover-channel | Nov 10, 2026]
+@alex.dev: "Heads up team — on the auth refactor PR #42: We switched to PBKDF2 with 100k rounds because of corporate security compliance audit RFC-88."
+@ved.ops: "Where are the staging and production deployment secrets stored?"
+@alex.dev: "Staging secrets are in 1Password vault 'HandoverIQ-Staging'. Production database URL is an env var in Railway dashboard. DO NOT commit .env to GitHub."
+@prachi.qa: "Is there any migration script to run after pulling latest main?"
+@alex.dev: "Yes, run 'alembic upgrade head' or start-all.bat. The SQLite database is now persistent under /data/handoveriq.db so reports will not get lost on container redeploy."`;
 
   function currentScope(): AnalysisScope {
     const sc: AnalysisScope = {};
     if (contributor.trim()) sc.contributor = contributor.trim().replace(/^@/, "");
     if (since) sc.since = since;
     if (until) sc.until = until;
+    if (notes.trim()) sc.supplementary_notes = notes.trim();
     return sc;
+  }
+
+  function handleFileUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    setUploadedFileName(file.name);
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const content = ev.target?.result as string;
+      if (content) {
+        setNotes((prev) => (prev ? prev + "\n\n" + content : content));
+      }
+    };
+    reader.readAsText(file);
   }
 
   async function loadContributors() {
@@ -209,6 +234,79 @@ export default function RepoConnectForm({ onSubmit, loading }: Props) {
                       @{c.login} · {Math.round(c.share * 100)}%
                     </button>
                   ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+
+        {/* Multi-source off-GitHub context (Slack / Discord / Meeting Notes / Docs) */}
+        <div className="px-1 pt-1 border-t border-[#F0EFEA]">
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => setShowNotes(!showNotes)}
+              className="text-xs font-medium text-[#4A4A47] hover:text-[#171717] transition-colors flex items-center gap-1.5"
+            >
+              <span>{showNotes ? "▾" : "▸"}</span>
+              <span>Attach Off-GitHub Context (Slack threads, meeting notes, RFCs)</span>
+              {notes.trim() && (
+                <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-indigo-50 border border-indigo-200 text-indigo-700 font-semibold">
+                  {notes.trim().split("\n").length} lines attached
+                </span>
+              )}
+            </button>
+
+            {showNotes && (
+              <button
+                type="button"
+                onClick={() => setNotes(SAMPLE_SLACK_THREAD)}
+                className="text-[11px] font-mono px-2.5 py-1 rounded-md border border-indigo-200 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 transition-colors"
+              >
+                + Load Sample Slack Thread
+              </button>
+            )}
+          </div>
+
+          {showNotes && (
+            <div className="mt-2.5 rounded-xl border border-[#EBEBE8] bg-[#FAFAF9] p-3 space-y-2.5 animate-fadeIn">
+              <div className="flex items-center justify-between flex-wrap gap-2 text-[11px] text-[#6B6B67]">
+                <p>
+                  Paste chat threads, meeting transcripts, or architecture docs to cross-link with commits and PRs.
+                </p>
+                <label className="cursor-pointer text-xs font-semibold text-indigo-600 hover:text-indigo-800 transition-colors">
+                  <span>{uploadedFileName ? `✓ ${uploadedFileName}` : "Upload .txt / .md"}</span>
+                  <input
+                    type="file"
+                    accept=".txt,.md,.json,.csv"
+                    onChange={handleFileUpload}
+                    className="hidden"
+                  />
+                </label>
+              </div>
+
+              <textarea
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Paste Slack handover conversation, architecture decisions, deployment passwords/vault locations..."
+                rows={4}
+                disabled={loading}
+                className="w-full rounded-lg border border-[#E5E5E2] bg-white p-2.5 text-xs font-mono text-[#171717] placeholder:text-[#A3A39E] focus:outline-none focus:border-[#171717]"
+              />
+
+              {notes.trim() && (
+                <div className="flex items-center justify-between text-[11px] text-[#8A8A85]">
+                  <span>{notes.length} characters ready to be indexed into RAG &amp; Handover Dossier</span>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setNotes("");
+                      setUploadedFileName("");
+                    }}
+                    className="text-red-500 hover:underline"
+                  >
+                    Clear notes
+                  </button>
                 </div>
               )}
             </div>

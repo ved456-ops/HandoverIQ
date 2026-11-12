@@ -32,7 +32,7 @@ async def analyze(body: AnalyzeRequest) -> AnalyzeResponse:
     Returns real data from the GitHub REST API.
     """
     try:
-        return await analyze_repository(body.repository_url, body.contributor, body.since, body.until)
+        return await analyze_repository(body.repository_url, body.contributor, body.since, body.until, body.supplementary_notes)
 
     except ValueError as exc:
         # Bad input — the URL could not be parsed

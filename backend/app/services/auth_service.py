@@ -24,6 +24,7 @@ from app.models.auth_models import (
     UserProfile,
     UserRegisterRequest,
 )
+from app.services import db
 from app.services.report_storage import list_reports
 
 DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data"
@@ -128,40 +129,33 @@ def _default_demo_record() -> dict:
 
 
 def _load_store() -> dict:
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    if not USERS_FILE.exists():
+    """Load the users/sessions store from SQLite (importing legacy users.json once)."""
+    raw = db.kv_get("users_store")
+    if raw is None and USERS_FILE.exists():
+        try:
+            raw = json.loads(USERS_FILE.read_text(encoding="utf-8"))
+        except Exception:
+            raw = None
+    if raw is None:
+        raw = {}
+    changed = False
+    if "users" not in raw:
+        raw["users"] = {}
+        changed = True
+    if "sessions" not in raw:
+        raw["sessions"] = {}
+        changed = True
+    if "usr_codevengers_demo" not in raw["users"]:
         demo = _default_demo_record()
-        initial = {
-            "users": {demo["user_id"]: demo},
-            "sessions": {},
-        }
-        _save_store(initial)
-        return initial
-
-    try:
-        raw = json.loads(USERS_FILE.read_text(encoding="utf-8"))
-        if "users" not in raw:
-            raw["users"] = {}
-        if "sessions" not in raw:
-            raw["sessions"] = {}
-        if "usr_codevengers_demo" not in raw["users"]:
-            demo = _default_demo_record()
-            raw["users"][demo["user_id"]] = demo
-            _save_store(raw)
-        return raw
-    except Exception:
-        demo = _default_demo_record()
-        initial = {
-            "users": {demo["user_id"]: demo},
-            "sessions": {},
-        }
-        _save_store(initial)
-        return initial
+        raw["users"][demo["user_id"]] = demo
+        changed = True
+    if changed or db.kv_get("users_store") is None:
+        _save_store(raw)
+    return raw
 
 
 def _save_store(store: dict) -> None:
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    USERS_FILE.write_text(json.dumps(store, indent=2), encoding="utf-8")
+    db.kv_put("users_store", store)
 
 
 def _record_to_profile(rec: dict) -> UserProfile:

@@ -74,6 +74,7 @@ def _prepare_context(data: AnalyzeResponse) -> dict[str, Any]:
             }
             for p in data.pull_requests[:20]
         ],
+        "supplementary_team_notes": data.supplementary_notes,
         "issues": [
             {
                 "number": i.number,
@@ -272,6 +273,25 @@ def _synthesize_deterministic(data: AnalyzeResponse) -> dict[str, Any]:
 
     # 3. Architectural decisions (extracted from feat/refactor/docs commits)
     arch_insights: list[dict[str, Any]] = []
+
+    # Extra off-GitHub context (Slack threads, meeting notes, RFCs)
+    if data.supplementary_notes and data.supplementary_notes.strip():
+        notes_lines = [ln.strip("-* 	") for ln in data.supplementary_notes.strip().splitlines() if ln.strip()]
+        snippet = " ".join(notes_lines[:4])[:280]
+        arch_insights.append({
+            "title": "Cross-Linked Off-GitHub Context (Slack / Docs / Notes)",
+            "description": f"Departing team attached supplementary context: {snippet}",
+            "impact": "high",
+            "evidence": [{
+                "type": "note",
+                "identifier": "Notes #1",
+                "title": "Slack / Meeting Notes Attachment",
+                "url": "#supplementary-context",
+                "snippet": snippet[:100],
+            }],
+        })
+
+
     for c in data.commits:
         msg = c.commit.message.split("\n")[0]
         lower_msg = msg.lower()
@@ -519,6 +539,7 @@ async def generate_handover_report(data: AnalyzeResponse) -> HandoverReport:
         generated_at=datetime.now(timezone.utc),
         generator=generator_name,
         executive_summary=exec_summary,
+        supplementary_notes=data.supplementary_notes,
         ownership=HandoverSection.model_validate(raw_report.get("ownership", {"title": "Ownership", "summary": "", "insights": []})),
         unfinished_work=HandoverSection.model_validate(raw_report.get("unfinished_work", {"title": "Unfinished Work", "summary": "", "insights": []})),
         architectural_decisions=HandoverSection.model_validate(raw_report.get("architectural_decisions", {"title": "Architectural Decisions", "summary": "", "insights": []})),

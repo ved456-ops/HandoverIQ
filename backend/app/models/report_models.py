@@ -14,7 +14,7 @@ from pydantic import BaseModel, ConfigDict, Field, computed_field
 class EvidenceItem(BaseModel):
     model_config = ConfigDict(extra="ignore")
 
-    type: Literal["commit", "pull_request", "issue", "file"]
+    type: str
     identifier: str                        # e.g., "7a8b9c0" or "#42"
     title: str                             # commit message or PR/issue title
     url: str                               # Direct clickable link on GitHub
@@ -104,6 +104,7 @@ class HandoverReport(BaseModel):
     dependencies_and_setup: HandoverSection
     risks_and_debt: HandoverSection
     knowledge_gaps: list[KnowledgeGap] = Field(default_factory=list)
+    supplementary_notes: Optional[str] = None
 
 
 class GenerateReportRequest(BaseModel):
@@ -111,3 +112,4 @@ class GenerateReportRequest(BaseModel):
     contributor: Optional[str] = None
     since: Optional[str] = None
     until: Optional[str] = None
+    supplementary_notes: Optional[str] = None

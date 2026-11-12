@@ -150,6 +150,7 @@ async def analyze_repository(
     contributor: Optional[str] = None,
     since: Optional[str] = None,
     until: Optional[str] = None,
+    supplementary_notes: Optional[str] = None,
 ) -> AnalyzeResponse:
     """
     Fetch repository metadata, recent commits, pull requests, and issues
@@ -239,5 +240,6 @@ async def analyze_repository(
         issues=issues,
         activity=activity,
         scope={"contributor": contributor, "since": since or None, "until": until or None} if scoped else None,
+        supplementary_notes=supplementary_notes,
         team_commits=team_commits,
     )

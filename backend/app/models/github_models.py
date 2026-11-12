@@ -128,6 +128,7 @@ class AnalyzeRequest(BaseModel):
     contributor: Optional[str] = None      # GitHub username scope
     since: Optional[str] = None            # YYYY-MM-DD
     until: Optional[str] = None            # YYYY-MM-DD
+    supplementary_notes: Optional[str] = None
 
 
 class ContributorStat(BaseModel):
@@ -146,5 +147,6 @@ class AnalyzeResponse(BaseModel):
     issues: list[IssueItem]
     activity: ActivityCounts
     scope: Optional[dict] = None
+    supplementary_notes: Optional[str] = None
     # Unfiltered recent commits used for bus-factor math (never sent to clients)
     team_commits: list[CommitItem] = Field(default_factory=list, exclude=True)

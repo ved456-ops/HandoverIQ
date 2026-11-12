@@ -14,37 +14,40 @@ from typing import Optional
 
 from pydantic import BaseModel
 from app.models.report_models import HandoverReport, KnowledgeGap
+from app.services import db
 
-DATA_DIR = Path(__file__).resolve().parent.parent.parent / "data" / "reports"
-DATA_DIR.mkdir(parents=True, exist_ok=True)
+# Legacy JSON reports (pre-SQLite) are imported once on startup.
+LEGACY_DIR = db.DATA_DIR / "reports"
+LEGACY_DIR.mkdir(parents=True, exist_ok=True)
 
 # In-memory index cache
 _CACHE: dict[str, HandoverReport] = {}
 
 
 def _load_cache():
-    """Load existing reports from disk on startup."""
-    global _CACHE
-    for file_path in DATA_DIR.glob("*.json"):
+    """Import legacy JSON files, then load every report from SQLite."""
+    for file_path in LEGACY_DIR.glob("*.json"):
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
-                data = json.load(f)
-                report = HandoverReport.model_validate(data)
-                _CACHE[report.report_id] = report
+            report = HandoverReport.model_validate(json.loads(file_path.read_text(encoding="utf-8")))
+            if db.get_report_body(report.report_id) is None:
+                db.put_report(report.report_id, report.generated_at.isoformat(), report.model_dump_json())
         except Exception as e:
-            print(f"Warning: could not load report {file_path}: {e}")
+            print(f"Warning: could not import legacy report {file_path}: {e}")
+    for body in db.all_report_bodies():
+        try:
+            report = HandoverReport.model_validate_json(body)
+            _CACHE[report.report_id] = report
+        except Exception as e:
+            print(f"Warning: could not load stored report: {e}")
 
 
-# Initialize cache
 _load_cache()
 
 
 def save_report(report: HandoverReport) -> HandoverReport:
-    """Save a report to cache and disk."""
+    """Persist a report to SQLite (and the in-memory cache)."""
     _CACHE[report.report_id] = report
-    file_path = DATA_DIR / f"{report.report_id}.json"
-    with open(file_path, "w", encoding="utf-8") as f:
-        f.write(report.model_dump_json(indent=2))
+    db.put_report(report.report_id, report.generated_at.isoformat(), report.model_dump_json())
     return report
 
 
@@ -52,14 +55,12 @@ def get_report(report_id: str) -> Optional[HandoverReport]:
     """Retrieve a report by ID."""
     if report_id in _CACHE:
         return _CACHE[report_id]
-    
-    file_path = DATA_DIR / f"{report_id}.json"
-    if file_path.exists():
+    body = db.get_report_body(report_id)
+    if body:
         try:
-            with open(file_path, "r", encoding="utf-8") as f:
-                report = HandoverReport.model_validate(json.load(f))
-                _CACHE[report_id] = report
-                return report
+            report = HandoverReport.model_validate_json(body)
+            _CACHE[report_id] = report
+            return report
         except Exception:
             return None
     return None

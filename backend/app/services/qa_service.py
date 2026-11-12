@@ -99,6 +99,16 @@ def _build_chunks(r: HandoverReport) -> list[_Chunk]:
                     evidence=ins.evidence,
                 )
             )
+    if r.supplementary_notes and r.supplementary_notes.strip():
+        chunks.append(
+            _Chunk(
+                kind="notes",
+                section="Supplementary Team Notes & Slack",
+                title="Cross-Linked Off-GitHub Notes",
+                text=r.supplementary_notes.strip(),
+                evidence=[EvidenceItem(type="note", identifier="Note #1", title="Slack & Meeting Notes", url="#supplementary-context")],
+            )
+        )
     for g in r.knowledge_gaps:
         status = "resolved" if g.resolved else "unresolved"
         chunks.append(
@@ -137,6 +147,8 @@ def _rank(question: str, chunks: list[_Chunk]) -> list[tuple[float, _Chunk]]:
 
 def _followups(r: HandoverReport) -> list[str]:
     f = ["What are the biggest unresolved risks?", "Which work is still unfinished?"]
+    if r.supplementary_notes:
+        f.insert(1, "What was captured in the Slack/team notes?")
     unresolved = [g for g in r.knowledge_gaps if not g.resolved]
     if unresolved:
         f.append(f"What do we know about: {unresolved[0].title}?")
@@ -199,7 +211,7 @@ def _cites(items: list[EvidenceItem]) -> list[Citation]:
         if e.url in seen:
             continue
         seen.add(e.url)
-        label = {"commit": "Commit", "pull_request": "PR", "issue": "Issue", "file": "File"}[e.type]
+        label = {"commit": "Commit", "pull_request": "PR", "issue": "Issue", "file": "File", "note": "Note"}.get(e.type, e.type.capitalize())
         out.append(Citation(type=e.type, label=f"{label} {e.identifier}", title=e.title, url=e.url))
         if len(out) >= 8:
             break

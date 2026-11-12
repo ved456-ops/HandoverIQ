@@ -59,6 +59,10 @@ export default function HandoverReportView({
       });
     });
 
+    if (report.supplementary_notes) {
+      md += `## Supplementary Off-GitHub Context (Slack / Meeting Notes)\n${report.supplementary_notes}\n\n`;
+    }
+
     if (report.knowledge_gaps.length > 0) {
       md += `## Knowledge Gaps & Action Items\n`;
       report.knowledge_gaps.forEach((g) => {
@@ -163,6 +167,36 @@ export default function HandoverReportView({
 
       {/* Readiness & Bus-Factor Score */}
       {report.readiness && <ReadinessCard readiness={report.readiness} gaps={gaps} />}
+
+      {/* Supplementary Off-GitHub Context (Slack / Notes / RFCs) */}
+      {report.supplementary_notes && (
+        <section
+          id="supplementary-context"
+          className="rounded-2xl border border-indigo-200/80 bg-gradient-to-br from-indigo-50/60 via-white to-purple-50/40 p-6 shadow-sm space-y-3"
+        >
+          <div className="flex items-center justify-between flex-wrap gap-2">
+            <div className="flex items-center gap-2.5">
+              <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-600 text-white text-xs font-bold font-mono">
+                #
+              </span>
+              <div>
+                <h3 className="font-semibold text-zinc-900 text-sm tracking-tight">
+                  Cross-Linked Off-GitHub Context (Slack / Meeting Notes)
+                </h3>
+                <p className="text-xs text-zinc-500">
+                  Attached by departing team · Grounded into Handover Dossier &amp; RAG Copilot
+                </p>
+              </div>
+            </div>
+            <span className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-700 font-semibold border border-indigo-200/60">
+              Indexed &amp; Cited
+            </span>
+          </div>
+          <div className="rounded-xl border border-zinc-200/70 bg-white/95 p-4 text-xs text-zinc-700 font-mono whitespace-pre-wrap leading-relaxed max-h-48 overflow-y-auto">
+            {report.supplementary_notes}
+          </div>
+        </section>
+      )}
 
       {/* 5 Core Pillars */}
       <div className="space-y-5">
