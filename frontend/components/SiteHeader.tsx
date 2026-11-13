@@ -33,7 +33,7 @@ export default function SiteHeader() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
+      className={`sticky top-0 z-50 transition-all duration-300 print:hidden no-print ${
         scrolled
           ? "bg-white/85 dark:bg-[#07090E]/85 backdrop-blur-xl border-b border-black/[0.06] dark:border-white/10 shadow-[0_1px_12px_rgba(0,0,0,0.04)]"
           : "bg-transparent border-b border-transparent"

@@ -89,3 +89,62 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   EXECUTIVE PRINT & PDF EXPORT STYLESHEET
+   Clean black & white rendering on paper / PDF without unwanted web chrome
+   ══════════════════════════════════════════════════════════════════════════════ */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 1.5cm 1.25cm;
+  }
+
+  /* Hide web chrome, interactive chat, mascot tour, theme toggles, and buttons */
+  header,
+  footer,
+  .no-print,
+  #ask-handover-chat,
+  #mascot-guide,
+  .curves-bg {
+    display: none !important;
+  }
+
+  /* Reset body styling for crisp physical printing */
+  html, body {
+    background: #ffffff !important;
+    color: #111827 !important;
+    font-size: 10pt !important;
+    line-height: 1.45 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  main {
+    max-width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Avoid unsightly pagination page splits inside core sections and cards */
+  section,
+  .print-avoid-break {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .rounded-3xl,
+  .rounded-2xl,
+  .rounded-xl {
+    box-shadow: none !important;
+    border: 1px solid #d1d5db !important;
+    background: #ffffff !important;
+  }
+
+  /* Keep evidence chips readable without high saturation */
+  a {
+    color: #111827 !important;
+    text-decoration: underline !important;
+  }
+}

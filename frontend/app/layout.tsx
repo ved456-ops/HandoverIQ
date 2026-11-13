@@ -50,7 +50,7 @@ export default function RootLayout({
         <MascotGuide />
 
         {/* ── SLEEK DEVELOPER-GRADE FOOTER ── */}
-        <footer className="mt-28 border-t border-black/[0.08] dark:border-white/10 bg-white/80 dark:bg-[#07090E]/95 backdrop-blur-xl transition-colors duration-300">
+        <footer className="mt-28 border-t border-black/[0.08] dark:border-white/10 bg-white/80 dark:bg-[#07090E]/95 backdrop-blur-xl transition-colors duration-300 print:hidden no-print">
           {/* Top Banner: Hackathon & Team CodeVengers */}
           <div className="border-b border-black/[0.06] dark:border-white/10 bg-gradient-to-r from-zinc-950 via-zinc-900 to-zinc-950 text-white relative overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(16,185,129,0.15),transparent_70%)]" />

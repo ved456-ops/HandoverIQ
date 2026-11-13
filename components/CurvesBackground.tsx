@@ -6,7 +6,7 @@
 export default function CurvesBackground() {
   return (
     <div
-      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden select-none"
+      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden select-none print:hidden no-print"
       aria-hidden="true"
     >
       {/* Base canvas */}

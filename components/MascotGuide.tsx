@@ -135,7 +135,10 @@ export default function MascotGuide() {
   }
 
   return (
-    <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end pointer-events-none">
+    <div
+      id="mascot-guide"
+      className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end pointer-events-none print:hidden no-print"
+    >
       {/* Speech Bubble Card when Open */}
       {isOpen && (
         <div className="pointer-events-auto mb-3 w-[calc(100vw-2rem)] sm:w-[410px] rounded-3xl border border-[#171717]/15 dark:border-white/15 bg-white/95 dark:bg-[#0C1017]/95 backdrop-blur-xl p-5 sm:p-6 shadow-[0_20px_60px_rgba(0,0,0,0.16)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.6)] animate-fadeIn text-[#171717] dark:text-zinc-100">
