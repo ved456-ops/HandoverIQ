@@ -1,8 +1,6 @@
 /**
  * Logo — renders the official HandoverIQ / CodeVengers 2026 brand assets.
- * Uses the exact uploaded artwork (transparent PNGs in /public):
- *   - logo-lockup.png : A-mark + divider + wordmark
- *   - logo-mark.png   : A-mark only (compact spaces, loaders)
+ * In Dark Mode, inverts black to white and white to black for optimal visibility.
  */
 type LogoProps = {
   variant?: "lockup" | "mark";
@@ -26,7 +24,7 @@ export default function Logo({
       src={src}
       alt={alt}
       draggable={false}
-      className={`${heightClass} w-auto object-contain select-none ${className}`}
+      className={`${heightClass} w-auto object-contain select-none transition-all duration-200 dark:invert ${className}`}
     />
   );
 }

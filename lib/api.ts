@@ -103,6 +103,7 @@ export type UserProfile = {
   organization: string;
   bio: string;
   avatar_color: string;
+  avatar_url?: string;
   plan_tier: string;
   created_at: string;
   last_login_at: string;
