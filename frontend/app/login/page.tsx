@@ -91,28 +91,28 @@ export default function LoginPage() {
     <div className="py-4 sm:py-8 animate-fadeIn">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
         {/* Left Column: Auth Card */}
-        <div className="lg:col-span-6 rounded-3xl border border-[#E5E5E2] bg-white p-7 sm:p-10 shadow-sm flex flex-col justify-between">
+        <div className="lg:col-span-6 rounded-3xl border border-[#E5E5E2] dark:border-white/10 bg-white dark:bg-[#0C1017] p-7 sm:p-10 shadow-sm flex flex-col justify-between">
           <div className="space-y-6">
             {/* Header */}
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <span className="inline-flex items-center gap-2 rounded-full border border-[#E5E5E2] bg-[#FBFBFA] px-3 py-1 text-[11px] font-mono uppercase tracking-wider text-[#6B6B67]">
+                <span className="inline-flex items-center gap-2 rounded-full border border-[#E5E5E2] dark:border-white/10 bg-[#FBFBFA] dark:bg-white/5 px-3 py-1 text-[11px] font-mono uppercase tracking-wider text-[#6B6B67] dark:text-zinc-400">
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
                   Workspace Identity
                 </span>
                 <Link
                   href="/"
-                  className="text-xs text-[#6B6B67] hover:text-[#171717] transition-colors"
+                  className="text-xs text-[#6B6B67] dark:text-zinc-400 hover:text-[#171717] dark:hover:text-white transition-colors"
                 >
                   ← Back to home
                 </Link>
               </div>
-              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#171717] pt-2">
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#171717] dark:text-white pt-2">
                 {mode === "signin"
                   ? "Sign in to your workspace"
                   : "Create your HandoverIQ account"}
               </h1>
-              <p className="text-sm text-[#6B6B67] leading-relaxed">
+              <p className="text-sm text-[#6B6B67] dark:text-zinc-400 leading-relaxed">
                 {mode === "signin"
                   ? "Access your saved handover dossiers, bookmarked GitHub repositories, and synthesis preferences."
                   : "Set up your engineering identity to archive handover reports, bookmark repositories, and customize AI synthesis."}
@@ -120,14 +120,14 @@ export default function LoginPage() {
             </div>
 
             {/* Mode Switcher Tabs */}
-            <div className="grid grid-cols-2 rounded-xl bg-[#F4F3EF] p-1 border border-[#E5E5E2]">
+            <div className="grid grid-cols-2 rounded-xl bg-[#F4F3EF] dark:bg-zinc-800/80 p-1 border border-[#E5E5E2] dark:border-white/10">
               <button
                 type="button"
                 onClick={() => switchMode("signin")}
                 className={`rounded-lg py-2 text-xs font-semibold transition-all ${
                   mode === "signin"
-                    ? "bg-white text-[#171717] shadow-sm"
-                    : "text-[#6B6B67] hover:text-[#171717]"
+                    ? "bg-white dark:bg-zinc-900 text-[#171717] dark:text-white shadow-sm"
+                    : "text-[#6B6B67] dark:text-zinc-400 hover:text-[#171717] dark:hover:text-white"
                 }`}
               >
                 Sign In
@@ -137,8 +137,8 @@ export default function LoginPage() {
                 onClick={() => switchMode("signup")}
                 className={`rounded-lg py-2 text-xs font-semibold transition-all ${
                   mode === "signup"
-                    ? "bg-white text-[#171717] shadow-sm"
-                    : "text-[#6B6B67] hover:text-[#171717]"
+                    ? "bg-white dark:bg-zinc-900 text-[#171717] dark:text-white shadow-sm"
+                    : "text-[#6B6B67] dark:text-zinc-400 hover:text-[#171717] dark:hover:text-white"
                 }`}
               >
                 Create Account
@@ -146,15 +146,15 @@ export default function LoginPage() {
             </div>
 
             {/* Instant 1-Click Demo Login Banner */}
-            <div className="rounded-2xl border border-[#E5E5E2] bg-[#FBFBFA] p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            <div className="rounded-2xl border border-[#E5E5E2] dark:border-white/10 bg-[#FBFBFA] dark:bg-white/[0.03] p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
               <div className="space-y-0.5">
-                <p className="text-xs font-bold text-[#171717] flex items-center gap-1.5">
-                  <span className="h-2 w-2 rounded-full bg-[#171717]" />
+                <p className="text-xs font-bold text-[#171717] dark:text-white flex items-center gap-1.5">
+                  <span className="h-2 w-2 rounded-full bg-[#171717] dark:bg-emerald-400" />
                   Evaluating or Pitching HandoverIQ?
                 </p>
-                <p className="text-[11px] text-[#6B6B67]">
+                <p className="text-[11px] text-[#6B6B67] dark:text-zinc-400">
                   Sign in instantly as{" "}
-                  <span className="font-mono text-[#171717]">
+                  <span className="font-mono text-[#171717] dark:text-zinc-200">
                     Alex Rivera (Staff Architect)
                   </span>{" "}
                   with preloaded dossiers & bookmarks.
@@ -164,18 +164,18 @@ export default function LoginPage() {
                 type="button"
                 onClick={handleDemoLogin}
                 disabled={demoLoading || loading}
-                className="rounded-full bg-[#171717] px-4 py-2 text-xs font-semibold text-[#FBFBFA] hover:bg-black transition-all shrink-0 disabled:opacity-50"
+                className="rounded-full bg-[#171717] dark:bg-white px-4 py-2 text-xs font-semibold text-[#FBFBFA] dark:text-zinc-950 hover:bg-black dark:hover:bg-zinc-200 transition-all shrink-0 disabled:opacity-50"
               >
                 {demoLoading ? "Entering…" : "Instant Demo Sign In →"}
               </button>
             </div>
 
             <div className="relative flex items-center justify-center">
-              <div className="border-t border-[#EBEBE8] w-full" />
-              <span className="bg-white px-3 text-[11px] font-mono uppercase tracking-widest text-[#8A8A85] shrink-0">
+              <div className="border-t border-[#EBEBE8] dark:border-white/10 w-full" />
+              <span className="bg-white dark:bg-[#0C1017] px-3 text-[11px] font-mono uppercase tracking-widest text-[#8A8A85] dark:text-zinc-500 shrink-0">
                 or with credentials
               </span>
-              <div className="border-t border-[#EBEBE8] w-full" />
+              <div className="border-t border-[#EBEBE8] dark:border-white/10 w-full" />
             </div>
 
             {/* Main Form */}
@@ -183,7 +183,7 @@ export default function LoginPage() {
               {mode === "signup" && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                   <div className="space-y-1.5 sm:col-span-2">
-                    <label className="block text-xs font-semibold text-[#171717]">
+                    <label className="block text-xs font-semibold text-[#171717] dark:text-zinc-200">
                       Full Name
                     </label>
                     <input
@@ -192,12 +192,12 @@ export default function LoginPage() {
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       placeholder="e.g. Priya Sharma"
-                      className="w-full rounded-xl border border-[#E5E5E2] bg-[#FBFBFA] px-3.5 py-2.5 text-sm text-[#171717] placeholder:text-[#A3A39E] focus:bg-white focus:border-[#171717] focus:outline-none transition-colors"
+                      className="w-full rounded-xl border border-[#E5E5E2] dark:border-white/10 bg-[#FBFBFA] dark:bg-zinc-900 px-3.5 py-2.5 text-sm text-[#171717] dark:text-white placeholder:text-[#A3A39E] dark:placeholder:text-zinc-600 focus:bg-white dark:focus:bg-zinc-900 focus:border-[#171717] dark:focus:border-white/40 focus:outline-none transition-colors"
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="block text-xs font-semibold text-[#171717]">
+                    <label className="block text-xs font-semibold text-[#171717] dark:text-zinc-200">
                       Engineering Role
                     </label>
                     <input
@@ -205,12 +205,12 @@ export default function LoginPage() {
                       value={role}
                       onChange={(e) => setRole(e.target.value)}
                       placeholder="e.g. Tech Lead"
-                      className="w-full rounded-xl border border-[#E5E5E2] bg-[#FBFBFA] px-3.5 py-2.5 text-sm text-[#171717] placeholder:text-[#A3A39E] focus:bg-white focus:border-[#171717] focus:outline-none transition-colors"
+                      className="w-full rounded-xl border border-[#E5E5E2] dark:border-white/10 bg-[#FBFBFA] dark:bg-zinc-900 px-3.5 py-2.5 text-sm text-[#171717] dark:text-white placeholder:text-[#A3A39E] dark:placeholder:text-zinc-600 focus:bg-white dark:focus:bg-zinc-900 focus:border-[#171717] dark:focus:border-white/40 focus:outline-none transition-colors"
                     />
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="block text-xs font-semibold text-[#171717]">
+                    <label className="block text-xs font-semibold text-[#171717] dark:text-zinc-200">
                       Organization / Team
                     </label>
                     <input
@@ -218,14 +218,14 @@ export default function LoginPage() {
                       value={organization}
                       onChange={(e) => setOrganization(e.target.value)}
                       placeholder="e.g. Acme Platform"
-                      className="w-full rounded-xl border border-[#E5E5E2] bg-[#FBFBFA] px-3.5 py-2.5 text-sm text-[#171717] placeholder:text-[#A3A39E] focus:bg-white focus:border-[#171717] focus:outline-none transition-colors"
+                      className="w-full rounded-xl border border-[#E5E5E2] dark:border-white/10 bg-[#FBFBFA] dark:bg-zinc-900 px-3.5 py-2.5 text-sm text-[#171717] dark:text-white placeholder:text-[#A3A39E] dark:placeholder:text-zinc-600 focus:bg-white dark:focus:bg-zinc-900 focus:border-[#171717] dark:focus:border-white/40 focus:outline-none transition-colors"
                     />
                   </div>
                 </div>
               )}
 
               <div className="space-y-1.5">
-                <label className="block text-xs font-semibold text-[#171717]">
+                <label className="block text-xs font-semibold text-[#171717] dark:text-zinc-200">
                   Work or Personal Email
                 </label>
                 <input
@@ -234,17 +234,17 @@ export default function LoginPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="name@company.com"
-                  className="w-full rounded-xl border border-[#E5E5E2] bg-[#FBFBFA] px-3.5 py-2.5 text-sm text-[#171717] placeholder:text-[#A3A39E] focus:bg-white focus:border-[#171717] focus:outline-none transition-colors font-mono"
+                  className="w-full rounded-xl border border-[#E5E5E2] dark:border-white/10 bg-[#FBFBFA] dark:bg-zinc-900 px-3.5 py-2.5 text-sm text-[#171717] dark:text-white placeholder:text-[#A3A39E] dark:placeholder:text-zinc-600 focus:bg-white dark:focus:bg-zinc-900 focus:border-[#171717] dark:focus:border-white/40 focus:outline-none transition-colors font-mono"
                 />
               </div>
 
               <div className="space-y-1.5">
                 <div className="flex items-center justify-between">
-                  <label className="block text-xs font-semibold text-[#171717]">
+                  <label className="block text-xs font-semibold text-[#171717] dark:text-zinc-200">
                     Password
                   </label>
                   {mode === "signin" && (
-                    <span className="text-[11px] font-mono text-[#8A8A85]">
+                    <span className="text-[11px] font-mono text-[#8A8A85] dark:text-zinc-400">
                       Demo password: handover2026
                     </span>
                   )}
@@ -256,12 +256,12 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••••••"
-                  className="w-full rounded-xl border border-[#E5E5E2] bg-[#FBFBFA] px-3.5 py-2.5 text-sm text-[#171717] placeholder:text-[#A3A39E] focus:bg-white focus:border-[#171717] focus:outline-none transition-colors"
+                  className="w-full rounded-xl border border-[#E5E5E2] dark:border-white/10 bg-[#FBFBFA] dark:bg-zinc-900 px-3.5 py-2.5 text-sm text-[#171717] dark:text-white placeholder:text-[#A3A39E] dark:placeholder:text-zinc-600 focus:bg-white dark:focus:bg-zinc-900 focus:border-[#171717] dark:focus:border-white/40 focus:outline-none transition-colors"
                 />
               </div>
 
               {error && (
-                <div className="rounded-xl border border-red-200 bg-red-50/80 px-4 py-3 text-xs text-red-700 font-medium">
+                <div className="rounded-xl border border-red-200 dark:border-red-800/50 bg-red-50/80 dark:bg-red-950/40 px-4 py-3 text-xs text-red-700 dark:text-red-300 font-medium">
                   {error}
                 </div>
               )}
@@ -269,7 +269,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading || demoLoading}
-                className="w-full rounded-xl bg-[#171717] py-3 text-sm font-semibold text-[#FBFBFA] shadow-sm hover:bg-black transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                className="w-full rounded-xl bg-[#171717] dark:bg-white py-3 text-sm font-semibold text-[#FBFBFA] dark:text-zinc-950 shadow-sm hover:bg-black dark:hover:bg-zinc-200 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <>
@@ -292,17 +292,17 @@ export default function LoginPage() {
           </div>
 
           {/* Footer note */}
-          <div className="pt-6 border-t border-[#F0EFEA] mt-6 flex items-center justify-between text-xs text-[#8A8A85]">
+          <div className="pt-6 border-t border-[#F0EFEA] dark:border-white/10 mt-6 flex items-center justify-between text-xs text-[#8A8A85] dark:text-zinc-500">
             <span>PBKDF2-SHA256 Encrypted</span>
             <span>Session persisted locally & on server</span>
           </div>
         </div>
 
         {/* Right Column: Editorial Showcase & Account Benefits */}
-        <div className="lg:col-span-6 rounded-3xl border border-[#E5E5E2] bg-[#171717] text-[#FBFBFA] p-7 sm:p-10 shadow-lg flex flex-col justify-between relative overflow-hidden">
+        <div className="lg:col-span-6 rounded-3xl border border-[#E5E5E2] dark:border-white/10 bg-[#171717] dark:bg-[#080B10] text-[#FBFBFA] p-7 sm:p-10 shadow-lg flex flex-col justify-between relative overflow-hidden">
           <div className="space-y-6 relative z-10">
             <div className="flex items-center justify-between">
-              <div className="bg-white/95 rounded-xl px-3 py-1.5">
+              <div className="bg-white/95 dark:bg-white/10 rounded-xl px-3 py-1.5 border border-transparent dark:border-white/10">
                 <Logo variant="lockup" heightClass="h-8" />
               </div>
               <span className="text-[11px] font-mono uppercase tracking-widest text-emerald-400 bg-emerald-950/60 border border-emerald-800/50 px-3 py-1 rounded-full">
@@ -314,7 +314,7 @@ export default function LoginPage() {
               <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white leading-tight">
                 Your engineering memory, organized in one account.
               </h2>
-              <p className="text-sm text-[#A3A39E] leading-relaxed">
+              <p className="text-sm text-[#A3A39E] dark:text-zinc-400 leading-relaxed">
                 Every repository you analyze, every knowledge gap your team
                 resolves, and your preferred AI synthesis settings stay synced to
                 your personal workspace.
@@ -364,13 +364,13 @@ export default function LoginPage() {
               ].map((item) => (
                 <div
                   key={item.title}
-                  className="rounded-2xl border border-white/10 bg-white/5 p-4 space-y-1"
+                  className="rounded-2xl border border-white/10 bg-white/5 dark:bg-white/[0.04] p-4 space-y-1"
                 >
                   <p className="text-xs font-bold text-white flex items-center gap-2">
                     <span className="text-emerald-400">✓</span>
                     {item.title}
                   </p>
-                  <p className="text-[11px] text-[#A3A39E] leading-relaxed">
+                  <p className="text-[11px] text-[#A3A39E] dark:text-zinc-400 leading-relaxed">
                     {item.desc}
                   </p>
                 </div>
@@ -378,7 +378,7 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <div className="pt-6 mt-6 border-t border-white/10 flex items-center justify-between text-xs text-[#A3A39E] relative z-10">
+          <div className="pt-6 mt-6 border-t border-white/10 flex items-center justify-between text-xs text-[#A3A39E] dark:text-zinc-400 relative z-10">
             <span>Zero Hallucination Policy</span>
             <span>CodeVengers 2026 Official Build</span>
           </div>
