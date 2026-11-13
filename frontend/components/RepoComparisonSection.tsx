@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   DEMO_FLASK,
@@ -8,6 +8,7 @@ import {
   getOfflineDemoReport,
 } from "@/lib/demoReports";
 import type { HandoverReport } from "@/lib/api";
+import { unlockBadge } from "@/lib/achievements";
 
 type BenchmarkPair = {
   label: string;
@@ -44,7 +45,12 @@ export default function RepoComparisonSection() {
   const reportB: HandoverReport =
     getOfflineDemoReport(customRepoB) || DEMO_HELLO_WORLD;
 
+  useEffect(() => {
+    unlockBadge("benchmark_analyst");
+  }, []);
+
   function selectPreset(idx: number) {
+    unlockBadge("benchmark_analyst");
     setSelectedPair(idx);
     setIsCustomMode(false);
     setCustomRepoA(PRESET_PAIRS[idx].repoA);

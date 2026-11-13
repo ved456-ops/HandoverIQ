@@ -4,6 +4,7 @@ import Logo from "@/components/Logo";
 import SiteHeader from "@/components/SiteHeader";
 import CurvesBackground from "@/components/CurvesBackground";
 import MascotGuide from "@/components/MascotGuide";
+import AchievementToast from "@/components/AchievementToast";
 import "./globals.css";
 
 const API_BASE =
@@ -48,6 +49,7 @@ export default function RootLayout({
         </main>
 
         <MascotGuide />
+        <AchievementToast />
 
         {/* ── SLEEK DEVELOPER-GRADE FOOTER ── */}
         <footer className="mt-28 border-t border-black/[0.08] dark:border-white/10 bg-white/80 dark:bg-[#07090E]/95 backdrop-blur-xl transition-colors duration-300 print:hidden no-print">

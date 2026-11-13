@@ -6,6 +6,7 @@ import {
   updateGapStatus,
   addCustomGapToReport,
 } from "@/lib/api";
+import { unlockBadge } from "@/lib/achievements";
 
 type Props = {
   gaps: KnowledgeGap[];
@@ -33,6 +34,9 @@ export default function MissingInfoPanel({
     if (!targetGap) return;
 
     const newResolvedState = !targetGap.resolved;
+    if (newResolvedState) {
+      unlockBadge("gap_crusher");
+    }
 
     const updated = gaps.map((g) =>
       g.id === id ? { ...g, resolved: newResolvedState } : g

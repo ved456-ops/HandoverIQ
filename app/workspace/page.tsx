@@ -26,6 +26,7 @@ import ActivityTabs from "@/components/ActivityTabs";
 import HandoverReportView from "@/components/HandoverReportView";
 import RepoComparisonSection from "@/components/RepoComparisonSection";
 import { relativeDate } from "@/lib/utils";
+import { unlockBadge } from "@/lib/achievements";
 
 type BackendStatus = "checking" | "ok" | "error";
 type StepState =
@@ -150,6 +151,7 @@ export default function WorkspacePage() {
       );
       setHandoverReport(report);
       setStep("report_ready");
+      unlockBadge("first_dossier");
       loadRecentReports();
     } catch (err: unknown) {
       // Check if we can fallback to pre-indexed report for demo repositories
@@ -157,6 +159,7 @@ export default function WorkspacePage() {
       if (offline) {
         setHandoverReport(offline);
         setStep("report_ready");
+        unlockBadge("first_dossier");
       } else {
         setErrorMessage(err instanceof Error ? err.message : String(err));
         setStep("error");

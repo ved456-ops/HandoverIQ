@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
+import { unlockBadge } from "@/lib/achievements";
 
 type TourStep = {
   badge: string;
@@ -112,6 +113,7 @@ export default function MascotGuide() {
     if (stepIndex < TOUR_STEPS.length - 1) {
       setStepIndex((i) => i + 1);
     } else {
+      unlockBadge("tour_graduate");
       handleSkipOrClose();
     }
   }

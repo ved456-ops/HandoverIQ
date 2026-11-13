@@ -9,6 +9,7 @@ import {
   clearStoredSession,
   type UserProfile,
 } from "@/lib/api";
+import { getCurrentRank, unlockBadge, type UserRank } from "@/lib/achievements";
 
 export default function UserAccountBadge() {
   const [user, setUser] = useState<UserProfile | null>(null);
@@ -28,16 +29,25 @@ export default function UserAccountBadge() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
 
+  const [userRank, setUserRank] = useState<UserRank | null>(null);
+
   useEffect(() => {
     setMounted(true);
     function loadUser() {
       const stored = getStoredUser();
       setUser(stored); // Only set if explicitly stored, NEVER auto-login
+      if (typeof window !== "undefined") {
+        setUserRank(getCurrentRank().rank);
+      }
     }
 
     loadUser();
     window.addEventListener("handoveriq-auth-change", loadUser);
-    return () => window.removeEventListener("handoveriq-auth-change", loadUser);
+    window.addEventListener("handoveriq-badge-unlocked", loadUser);
+    return () => {
+      window.removeEventListener("handoveriq-auth-change", loadUser);
+      window.removeEventListener("handoveriq-badge-unlocked", loadUser);
+    };
   }, []);
 
   // Sync edit form fields when entering edit mode
@@ -92,6 +102,7 @@ export default function UserAccountBadge() {
       };
       setUser(updated);
       updateStoredUser(updated);
+      unlockBadge("profile_complete");
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 2500);
     };
@@ -124,6 +135,7 @@ export default function UserAccountBadge() {
 
     setUser(updated);
     updateStoredUser(updated);
+    unlockBadge("profile_complete");
     setIsEditing(false);
     setSaveSuccess(true);
     setTimeout(() => setSaveSuccess(false), 2500);
@@ -192,8 +204,16 @@ export default function UserAccountBadge() {
         </div>
 
         {/* User first name pill */}
-        <span className="hidden sm:inline text-xs font-semibold text-[#171717] dark:text-zinc-100 max-w-[90px] truncate">
-          {user.name.split(" ")[0]}
+        <span className="hidden sm:inline-flex items-center gap-1 text-xs font-semibold text-[#171717] dark:text-zinc-100 max-w-[120px] truncate">
+          <span>{user.name.split(" ")[0]}</span>
+          {userRank && (
+            <span
+              className="text-[11px] opacity-90"
+              title={`Lvl ${userRank.level} · ${userRank.title}`}
+            >
+              {userRank.badge}
+            </span>
+          )}
         </span>
 
         {/* Small chevron */}
@@ -270,6 +290,15 @@ export default function UserAccountBadge() {
                   <p className="text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
                     {user.role} {user.organization ? `· ${user.organization}` : ""}
                   </p>
+
+                  {userRank && (
+                    <div className="pt-0.5">
+                      <span className="inline-flex items-center gap-1 text-[10px] font-mono font-semibold px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 border border-black/5 dark:border-white/10">
+                        <span>{userRank.badge}</span>
+                        <span>Lvl {userRank.level} · {userRank.title}</span>
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
 

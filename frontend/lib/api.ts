@@ -390,6 +390,7 @@ export async function updateAccountProfile(payload: {
   organization?: string;
   bio?: string;
   avatar_color?: string;
+  avatar_url?: string;
   default_ai_provider?: string;
   export_format?: string;
   github_personal_token?: string;

@@ -17,6 +17,8 @@ import {
   type UserProfile,
 } from "@/lib/api";
 import { relativeDate } from "@/lib/utils";
+import RankBadgesCard from "@/components/RankBadgesCard";
+import { unlockBadge } from "@/lib/achievements";
 
 type AccountTab = "overview" | "bookmarks" | "profile" | "settings";
 
@@ -42,6 +44,7 @@ export default function AccountPage() {
   const [organization, setOrganization] = useState("");
   const [bio, setBio] = useState("");
   const [avatarColor, setAvatarColor] = useState("#171717");
+  const [avatarUrl, setAvatarUrl] = useState<string>("");
   const [savingProfile, setSavingProfile] = useState(false);
 
   // Preferences state
@@ -73,6 +76,7 @@ export default function AccountPage() {
     setOrganization(u.organization);
     setBio(u.bio);
     setAvatarColor(u.avatar_color || "#171717");
+    setAvatarUrl(u.avatar_url || "");
     setAiProvider(u.preferences.default_ai_provider || "auto");
     setExportFormat(u.preferences.export_format || "markdown");
     setEmailNotifs(u.preferences.email_notifications ?? true);
@@ -127,8 +131,10 @@ export default function AccountPage() {
         organization,
         bio,
         avatar_color: avatarColor,
+        avatar_url: avatarUrl || undefined,
       });
       setUser(updated);
+      unlockBadge("profile_complete");
       showToast("Profile & organization details saved.");
     } catch (err: unknown) {
       showToast(err instanceof Error ? err.message : "Failed to update profile");
@@ -184,6 +190,7 @@ export default function AccountPage() {
         notes: newRepoNotes.trim() || "Saved for engineering handover audit",
       });
       setUser(updated);
+      unlockBadge("repo_curator");
       setNewRepoSlug("");
       setNewRepoNotes("");
       showToast(`Bookmarked ${cleanedSlug}`);
@@ -379,6 +386,9 @@ export default function AccountPage() {
       {/* TAB 1: OVERVIEW & SAVED DOSSIERS */}
       {activeTab === "overview" && (
         <div className="space-y-8 animate-fadeIn">
+          {/* Engineering Transition Badges & Ranks System */}
+          <RankBadgesCard />
+
           {/* KPI Metric Strip */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <div className="rounded-2xl border border-[#E5E5E2] dark:border-white/10 bg-white dark:bg-[#0C1017] p-5 shadow-sm">
@@ -738,29 +748,126 @@ export default function AccountPage() {
               />
             </div>
 
-            <div className="space-y-2">
-              <label className="block text-xs font-semibold text-[#171717] dark:text-zinc-200">
-                Workspace Avatar Theme
-              </label>
-              <div className="flex flex-wrap items-center gap-3">
-                {AVATAR_COLORS.map((c) => (
-                  <button
-                    key={c.value}
-                    type="button"
-                    onClick={() => setAvatarColor(c.value)}
-                    className={`flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-medium transition-all ${
-                      avatarColor === c.value
-                        ? "border-[#171717] dark:border-white bg-[#171717]/5 dark:bg-white/10 text-[#171717] dark:text-white font-semibold"
-                        : "border-[#E5E5E2] dark:border-white/10 text-[#6B6B67] dark:text-zinc-400"
-                    }`}
-                  >
-                    <span
-                      className="h-3.5 w-3.5 rounded-full"
-                      style={{ backgroundColor: c.value }}
+            {/* ── WORKSPACE AVATAR & MASCOT PERSONA ── */}
+            <div className="space-y-4 pt-2 border-t border-black/[0.06] dark:border-white/10">
+              <div className="space-y-1">
+                <label className="block text-xs font-semibold text-[#171717] dark:text-zinc-200">
+                  Workspace Avatar &amp; Mascot Persona
+                </label>
+                <p className="text-[11px] text-[#6B6B67] dark:text-zinc-400">
+                  Select your developer representation across handover dossiers, team comments, and audit trails.
+                </p>
+              </div>
+
+              {/* Live Avatar Preview + Options */}
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-2xl border border-black/[0.06] dark:border-white/10 bg-zinc-50 dark:bg-zinc-900/40">
+                <div className="relative h-16 w-16 rounded-full overflow-hidden shrink-0 border-2 border-emerald-500/40 shadow-sm bg-zinc-100 dark:bg-zinc-800">
+                  {avatarUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={avatarUrl}
+                      alt={name || "User Avatar"}
+                      className="h-full w-full object-cover"
                     />
-                    <span>{c.label}</span>
-                  </button>
-                ))}
+                  ) : (
+                    <div
+                      className="flex h-full w-full items-center justify-center text-xl font-bold text-white"
+                      style={{ backgroundColor: avatarColor }}
+                    >
+                      {(name || "U")
+                        .split(" ")
+                        .map((p) => p[0])
+                        .join("")
+                        .slice(0, 2)
+                        .toUpperCase()}
+                    </div>
+                  )}
+                </div>
+
+                <div className="flex-1 space-y-2">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <label className="cursor-pointer inline-flex items-center gap-1.5 rounded-full border border-black/10 dark:border-white/15 bg-white dark:bg-zinc-800 px-3 py-1.5 text-xs font-semibold text-[#171717] dark:text-white hover:border-black/30 dark:hover:border-white/30 transition-all shadow-sm">
+                      <span>📷 Upload Photo</span>
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+                          if (file.size > 5 * 1024 * 1024) {
+                            showToast("File size must be under 5MB");
+                            return;
+                          }
+                          const reader = new FileReader();
+                          reader.onload = (event) => {
+                            const dataUrl = event.target?.result as string;
+                            setAvatarUrl(dataUrl);
+                            showToast("Custom photo staged · Click Save to persist");
+                          };
+                          reader.readAsDataURL(file);
+                        }}
+                      />
+                    </label>
+
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setAvatarUrl("/mascot.png");
+                        showToast("Adopted Archon the Wizard as your mascot!");
+                      }}
+                      className="inline-flex items-center gap-1.5 rounded-full border border-purple-300 dark:border-purple-800/80 bg-purple-50 dark:bg-purple-950/40 px-3 py-1.5 text-xs font-semibold text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/40 transition-all"
+                    >
+                      <span>🧙 Adopt Archon Mascot</span>
+                    </button>
+
+                    {avatarUrl && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setAvatarUrl("");
+                          showToast("Reset to monogram initials avatar");
+                        }}
+                        className="inline-flex items-center gap-1 text-xs text-zinc-500 hover:text-red-500 transition-colors px-2 py-1"
+                      >
+                        Reset to Monogram
+                      </button>
+                    )}
+                  </div>
+                  <p className="text-[11px] text-zinc-500 dark:text-zinc-400">
+                    Supports JPG, PNG or WEBP up to 5MB, or choose the official CodeVengers mascot.
+                  </p>
+                </div>
+              </div>
+
+              {/* Fallback Theme Color Swatches */}
+              <div className="space-y-2 pt-1">
+                <div className="flex items-center justify-between">
+                  <label className="block text-[11px] font-mono uppercase tracking-wider text-zinc-500 dark:text-zinc-400 font-semibold">
+                    Monogram &amp; Badge Accent Tint
+                  </label>
+                  <span className="text-[10px] text-zinc-400">Used for fallback initials</span>
+                </div>
+                <div className="flex flex-wrap items-center gap-2.5">
+                  {AVATAR_COLORS.map((c) => (
+                    <button
+                      key={c.value}
+                      type="button"
+                      onClick={() => setAvatarColor(c.value)}
+                      className={`flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium transition-all ${
+                        avatarColor === c.value
+                          ? "border-[#171717] dark:border-white bg-[#171717]/5 dark:bg-white/10 text-[#171717] dark:text-white font-semibold shadow-sm"
+                          : "border-[#E5E5E2] dark:border-white/10 text-[#6B6B67] dark:text-zinc-400 hover:border-black/20 dark:hover:border-white/20"
+                      }`}
+                    >
+                      <span
+                        className="h-3 w-3 rounded-full shrink-0"
+                        style={{ backgroundColor: c.value }}
+                      />
+                      <span>{c.label}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
 

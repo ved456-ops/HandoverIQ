@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import type { HandoverReport, HandoverSection, KnowledgeGap } from "@/lib/api";
 import ReadinessCard from "@/components/ReadinessCard";
@@ -9,6 +9,7 @@ import MissingInfoPanel from "@/components/MissingInfoPanel";
 import AskHandoverChat from "@/components/AskHandoverChat";
 import Logo from "@/components/Logo";
 import { relativeDate } from "@/lib/utils";
+import { unlockBadge } from "@/lib/achievements";
 
 type Props = {
   report: HandoverReport;
@@ -24,6 +25,10 @@ export default function HandoverReportView({
   const [copiedMd, setCopiedMd] = useState(false);
   const [copiedLink, setCopiedLink] = useState(false);
   const [gaps, setGaps] = useState<KnowledgeGap[]>(report.knowledge_gaps);
+
+  useEffect(() => {
+    unlockBadge("first_dossier");
+  }, []);
 
   const sections: { key: string; number: string; data: HandoverSection }[] = [
     { key: "ownership", number: "01", data: report.ownership },
@@ -88,6 +93,7 @@ export default function HandoverReportView({
   }
 
   function handlePrintPdf() {
+    unlockBadge("pdf_publisher");
     if (typeof window !== "undefined") {
       window.print();
     }
