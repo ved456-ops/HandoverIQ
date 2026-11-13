@@ -8,6 +8,24 @@ export const DEMO_HELLO_WORLD: HandoverReport = {
   generator: "evidence-synthesizer (deterministic engine)",
   executive_summary:
     "Handover report for octocat/Hello-World (General). Analyzed 3 recent commits across 3 contributors, 30 pull requests, and 19 issues.",
+  readiness: {
+    overall: 68,
+    band: "ready",
+    bus_factor: 100,
+    hygiene: 100,
+    clarity: 67,
+    gap_resolution: 33,
+    facts: {
+      top_owner: "octocat",
+      top_owner_share: 0.33,
+      contributors: 3,
+      commits_sampled: 3,
+      stale_open_prs: 0,
+      open_bugs: 0,
+      gaps_resolved: 1,
+      gaps_total: 3,
+    },
+  },
   ownership: {
     title: "Ownership & Core Modules",
     summary: "Key code ownership is concentrated across 3 active contributors.",
@@ -218,6 +236,24 @@ export const DEMO_FLASK: HandoverReport = {
   generator: "evidence-synthesizer (deterministic engine)",
   executive_summary:
     "Handover report for pallets/flask (Python). Analyzed 30 recent commits across 3 contributors, 30 pull requests, and 18 issues.",
+  readiness: {
+    overall: 74,
+    band: "ready",
+    bus_factor: 55,
+    hygiene: 85,
+    clarity: 90,
+    gap_resolution: 50,
+    facts: {
+      top_owner: "davidism",
+      top_owner_share: 0.9,
+      contributors: 3,
+      commits_sampled: 30,
+      stale_open_prs: 0,
+      open_bugs: 0,
+      gaps_resolved: 0,
+      gaps_total: 2,
+    },
+  },
   ownership: {
     title: "Ownership & Core Modules",
     summary: "Key code ownership is concentrated across 3 active contributors.",
