@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import Logo from "@/components/Logo";
+import ThemeToggle from "@/components/ThemeToggle";
 import {
   fetchCurrentUser,
   getStoredUser,
@@ -86,7 +87,7 @@ export default function SiteHeader() {
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-white/80 backdrop-blur-xl border-b border-black/[0.06] shadow-[0_1px_12px_rgba(0,0,0,0.04)]"
+          ? "bg-white/80 dark:bg-zinc-950/80 backdrop-blur-xl border-b border-black/[0.06] dark:border-white/10 shadow-[0_1px_12px_rgba(0,0,0,0.04)]"
           : "bg-transparent border-b border-transparent"
       }`}
     >
@@ -95,10 +96,10 @@ export default function SiteHeader() {
           <Link href="/" aria-label="HandoverIQ home" className="shrink-0">
             <Logo variant="lockup" heightClass="h-8 sm:h-9" />
           </Link>
-          <span className="hidden xl:inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-black/[0.04] text-[#4A4A47] border border-black/[0.06]">
+          <span className="hidden xl:inline-flex items-center gap-1.5 text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-black/[0.04] dark:bg-white/[0.06] text-[#4A4A47] dark:text-zinc-300 border border-black/[0.06] dark:border-white/10">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
             <span>Team CodeVengers:</span>
-            <span className="text-[#171717] font-medium">Ved Wandile, Diptesh Patil, Prachi Patil, Ritisha Songire</span>
+            <span className="text-[#171717] dark:text-white font-medium">Ved Wandile, Diptesh Patil, Prachi Patil, Ritisha Songire</span>
           </span>
         </div>
 
@@ -112,8 +113,8 @@ export default function SiteHeader() {
                 href={item.href}
                 className={`px-3 py-2 rounded-full transition-colors ${
                   active
-                    ? "text-[#171717] bg-black/[0.05] font-medium"
-                    : "text-[#5F5F5B] hover:text-[#171717] hover:bg-black/[0.04]"
+                    ? "text-[#171717] dark:text-white bg-black/[0.05] dark:bg-white/10 font-medium"
+                    : "text-[#5F5F5B] dark:text-zinc-400 hover:text-[#171717] dark:hover:text-white hover:bg-black/[0.04] dark:hover:bg-white/[0.06]"
                 }`}
               >
                 {item.label}
@@ -123,6 +124,7 @@ export default function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2.5">
+          <ThemeToggle />
           {user ? (
             <div className="relative" ref={menuRef}>
               <button

@@ -89,31 +89,31 @@ export default function HandoverReportView({
   return (
     <div className="space-y-8 animate-fadeIn">
       {/* Header Banner */}
-      <div className="rounded-2xl border border-zinc-200/90 bg-white p-6 sm:p-8 shadow-sm space-y-5">
+      <div className="rounded-2xl border border-zinc-200/90 dark:border-white/10 bg-white dark:bg-zinc-900/95 p-6 sm:p-8 shadow-sm space-y-5">
         <div className="flex items-start justify-between gap-4 flex-wrap">
           <div className="space-y-2 max-w-2xl">
             <div className="flex items-center gap-2.5 flex-wrap">
-              <span className="inline-flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-indigo-50 text-indigo-700 border border-indigo-200/60 font-semibold">
+              <span className="inline-flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-wider px-2.5 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200/60 dark:border-indigo-800/60 font-semibold">
                 Handover Dossier
               </span>
-              <span className="text-xs font-mono px-2.5 py-0.5 rounded-md border border-zinc-200 bg-zinc-50 text-zinc-700 font-medium">
+              <span className="text-xs font-mono px-2.5 py-0.5 rounded-md border border-zinc-200 dark:border-zinc-700 bg-zinc-50 dark:bg-zinc-800 text-zinc-700 dark:text-zinc-300 font-medium">
                 {report.repo_name}
               </span>
               {report.scope?.contributor && (
-                <span className="text-xs font-mono px-2.5 py-0.5 rounded-md border border-amber-200 bg-amber-50 text-amber-800 font-medium">
+                <span className="text-xs font-mono px-2.5 py-0.5 rounded-md border border-amber-200 dark:border-amber-700/60 bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 font-medium">
                   @{report.scope.contributor}
                 </span>
               )}
               {(report.scope?.since || report.scope?.until) && (
-                <span className="text-xs font-mono px-2.5 py-0.5 rounded-md border border-amber-200 bg-amber-50 text-amber-800 font-medium">
+                <span className="text-xs font-mono px-2.5 py-0.5 rounded-md border border-amber-200 dark:border-amber-700/60 bg-amber-50 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 font-medium">
                   {report.scope?.since || "start"} → {report.scope?.until || "today"}
                 </span>
               )}
             </div>
-            <h2 className="text-2xl font-bold tracking-tight text-zinc-900">
+            <h2 className="text-2xl font-bold tracking-tight text-zinc-900 dark:text-white">
               Engineering Transition Report
             </h2>
-            <p className="text-sm text-zinc-600 leading-relaxed">
+            <p className="text-sm text-zinc-600 dark:text-zinc-300 leading-relaxed">
               {report.executive_summary}
             </p>
           </div>
@@ -121,20 +121,20 @@ export default function HandoverReportView({
           <div className="flex items-center gap-2 flex-wrap">
             <button
               onClick={copyShareLink}
-              className="rounded-lg border border-zinc-200 bg-white px-3.5 py-2 text-xs font-semibold text-zinc-700 shadow-sm hover:bg-zinc-50 transition-colors"
+              className="rounded-lg border border-zinc-200 dark:border-white/15 bg-white dark:bg-zinc-800 px-3.5 py-2 text-xs font-semibold text-zinc-700 dark:text-zinc-200 shadow-sm hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-colors"
             >
               {copiedLink ? "✓ Link Copied" : "Share Link"}
             </button>
             <button
               onClick={copyMarkdown}
-              className="rounded-lg border border-zinc-200 bg-white px-3.5 py-2 text-xs font-semibold text-zinc-700 shadow-sm hover:bg-zinc-50 transition-colors"
+              className="rounded-lg border border-zinc-200 dark:border-white/15 bg-white dark:bg-zinc-800 px-3.5 py-2 text-xs font-semibold text-zinc-700 dark:text-zinc-200 shadow-sm hover:bg-zinc-50 dark:hover:bg-zinc-700 transition-colors"
             >
               {copiedMd ? "✓ Markdown Copied" : "Export .MD"}
             </button>
             {isStandalonePage && (
               <Link
                 href="/workspace"
-                className="rounded-lg bg-zinc-900 px-3.5 py-2 text-xs font-semibold text-white hover:bg-zinc-800 transition-colors"
+                className="rounded-lg bg-zinc-900 dark:bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white hover:bg-zinc-800 dark:hover:bg-indigo-500 transition-colors"
               >
                 ← Workspace
               </Link>
@@ -142,7 +142,7 @@ export default function HandoverReportView({
             {onReset && !isStandalonePage && (
               <button
                 onClick={onReset}
-                className="rounded-lg bg-zinc-900 px-3.5 py-2 text-xs font-semibold text-white hover:bg-zinc-800 transition-colors"
+                className="rounded-lg bg-zinc-900 dark:bg-indigo-600 px-3.5 py-2 text-xs font-semibold text-white hover:bg-zinc-800 dark:hover:bg-indigo-500 transition-colors"
               >
                 New Analysis
               </button>
@@ -151,10 +151,10 @@ export default function HandoverReportView({
         </div>
 
         {/* Engine and Date Info */}
-        <div className="pt-4 border-t border-zinc-100 flex items-center justify-between text-xs text-zinc-400 flex-wrap gap-2">
+        <div className="pt-4 border-t border-zinc-100 dark:border-white/10 flex items-center justify-between text-xs text-zinc-400 dark:text-zinc-500 flex-wrap gap-2">
           <span>
             Synthesis Engine:{" "}
-            <strong className="font-mono text-zinc-700 font-medium">
+            <strong className="font-mono text-zinc-700 dark:text-zinc-300 font-medium">
               {report.generator}
             </strong>
           </span>
@@ -172,7 +172,7 @@ export default function HandoverReportView({
       {report.supplementary_notes && (
         <section
           id="supplementary-context"
-          className="rounded-2xl border border-indigo-200/80 bg-gradient-to-br from-indigo-50/60 via-white to-purple-50/40 p-6 shadow-sm space-y-3"
+          className="rounded-2xl border border-indigo-200/80 dark:border-indigo-600/30 bg-gradient-to-br from-indigo-50/60 via-white to-purple-50/40 dark:from-indigo-950/40 dark:via-zinc-900 dark:to-purple-950/30 p-6 shadow-sm space-y-3"
         >
           <div className="flex items-center justify-between flex-wrap gap-2">
             <div className="flex items-center gap-2.5">
@@ -180,19 +180,19 @@ export default function HandoverReportView({
                 #
               </span>
               <div>
-                <h3 className="font-semibold text-zinc-900 text-sm tracking-tight">
+                <h3 className="font-semibold text-zinc-900 dark:text-white text-sm tracking-tight">
                   Cross-Linked Off-GitHub Context (Slack / Meeting Notes)
                 </h3>
-                <p className="text-xs text-zinc-500">
+                <p className="text-xs text-zinc-500 dark:text-zinc-400">
                   Attached by departing team · Grounded into Handover Dossier &amp; RAG Copilot
                 </p>
               </div>
             </div>
-            <span className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-700 font-semibold border border-indigo-200/60">
+            <span className="text-[11px] font-mono px-2 py-0.5 rounded-md bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 font-semibold border border-indigo-200/60 dark:border-indigo-800">
               Indexed &amp; Cited
             </span>
           </div>
-          <div className="rounded-xl border border-zinc-200/70 bg-white/95 p-4 text-xs text-zinc-700 font-mono whitespace-pre-wrap leading-relaxed max-h-48 overflow-y-auto">
+          <div className="rounded-xl border border-zinc-200/70 dark:border-white/10 bg-white/95 dark:bg-zinc-900/90 p-4 text-xs text-zinc-700 dark:text-zinc-300 font-mono whitespace-pre-wrap leading-relaxed max-h-48 overflow-y-auto">
             {report.supplementary_notes}
           </div>
         </section>
@@ -203,25 +203,25 @@ export default function HandoverReportView({
         {sections.map(({ key, number, data }) => (
           <section
             key={key}
-            className="rounded-2xl border border-zinc-200/80 bg-white p-6 shadow-sm space-y-4"
+            className="rounded-2xl border border-zinc-200/80 dark:border-white/10 bg-white dark:bg-zinc-900/90 p-6 shadow-sm space-y-4"
           >
-            <div className="flex items-center justify-between border-b border-zinc-100 pb-3.5 flex-wrap gap-2">
+            <div className="flex items-center justify-between border-b border-zinc-100 dark:border-white/10 pb-3.5 flex-wrap gap-2">
               <div className="flex items-center gap-3">
-                <span className="text-xs font-mono font-bold text-indigo-600 bg-indigo-50 border border-indigo-100 px-2 py-0.5 rounded-md">
+                <span className="text-xs font-mono font-bold text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-100 dark:border-indigo-900 px-2 py-0.5 rounded-md">
                   {number}
                 </span>
-                <h3 className="font-semibold text-zinc-900 text-base tracking-tight">
+                <h3 className="font-semibold text-zinc-900 dark:text-white text-base tracking-tight">
                   {data.title}
                 </h3>
               </div>
-              <span className="text-[11px] px-2 py-0.5 rounded-md bg-zinc-100 text-zinc-600 font-mono">
+              <span className="text-[11px] px-2 py-0.5 rounded-md bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 font-mono">
                 {data.insights.length} insight
                 {data.insights.length !== 1 ? "s" : ""}
               </span>
             </div>
 
             {data.summary && (
-              <p className="text-xs text-zinc-500 leading-relaxed">
+              <p className="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
                 {data.summary}
               </p>
             )}

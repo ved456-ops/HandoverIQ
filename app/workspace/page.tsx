@@ -141,18 +141,18 @@ export default function WorkspacePage() {
   return (
     <div className="space-y-12 animate-fadeIn">
       {/* Top Breadcrumb & Live Engine Bar */}
-      <div className="flex items-center justify-between flex-wrap gap-3 border-b border-[#EBEBE8] pb-4">
-        <div className="flex items-center gap-2 text-xs text-[#6B6B67] flex-wrap">
-          <Link href="/" className="hover:text-[#171717] transition-colors">
+      <div className="flex items-center justify-between flex-wrap gap-3 border-b border-[#EBEBE8] dark:border-white/10 pb-4">
+        <div className="flex items-center gap-2 text-xs text-[#6B6B67] dark:text-zinc-400 flex-wrap">
+          <Link href="/" className="hover:text-[#171717] dark:hover:text-white transition-colors">
             Home
           </Link>
           <span>/</span>
-          <span className="font-semibold text-[#171717]">
+          <span className="font-semibold text-[#171717] dark:text-white">
             Handover Analyzer Workspace
           </span>
           <span className="hidden sm:inline text-[#8A8A85]">·</span>
-          <span className="hidden sm:inline text-[11px] font-mono text-[#8A8A85]">
-            Built by <strong>Team CodeVengers</strong>: <span className="text-[#171717] font-medium">Ved Wandile, Diptesh Patil, Prachi Patil, Ritisha Songire</span>
+          <span className="hidden sm:inline text-[11px] font-mono text-[#8A8A85] dark:text-zinc-400">
+            Built by <strong>Team CodeVengers</strong>: <span className="text-[#171717] dark:text-white font-medium">Ved Wandile, Diptesh Patil, Prachi Patil, Ritisha Songire</span>
           </span>
         </div>
 
@@ -160,13 +160,13 @@ export default function WorkspacePage() {
           {user && (
             <Link
               href="/account"
-              className="inline-flex items-center gap-1.5 rounded-full border border-[#E5E5E2] bg-white px-3 py-1 text-[11px] font-medium text-[#171717] hover:border-[#171717] transition-colors"
+              className="inline-flex items-center gap-1.5 rounded-full border border-[#E5E5E2] dark:border-white/15 bg-white dark:bg-zinc-800 px-3 py-1 text-[11px] font-medium text-[#171717] dark:text-white hover:border-[#171717] transition-colors"
             >
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
               <span>Workspace: {user.name}</span>
             </Link>
           )}
-          <div className="inline-flex items-center gap-2 rounded-full border border-[#E5E5E2] bg-white/80 px-3 py-1 text-[11px] font-medium text-[#4A4A47] shadow-sm">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[#E5E5E2] dark:border-white/15 bg-white/80 dark:bg-zinc-800 px-3 py-1 text-[11px] font-medium text-[#4A4A47] dark:text-zinc-300 shadow-sm">
             <StatusDot status={backendStatus} />
             <span>
               {backendStatus === "checking" && "Connecting to engine…"}
@@ -183,15 +183,15 @@ export default function WorkspacePage() {
       {step !== "report_ready" && (
         <section className="space-y-6">
           <div className="space-y-2 max-w-2xl">
-            <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-[#6B6B67]">
+            <span className="text-[11px] font-mono uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400 font-semibold">
               Interactive Intelligence Terminal
             </span>
-            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#171717]">
+            <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-[#171717] dark:text-white">
               Connect a GitHub Repository
             </h1>
-            <p className="text-sm text-[#6B6B67] leading-relaxed">
+            <p className="text-sm text-[#6B6B67] dark:text-zinc-400 leading-relaxed">
               Enter any public repository URL or{" "}
-              <code className="font-mono text-xs bg-white px-1.5 py-0.5 rounded border border-[#EBEBE8]">
+              <code className="font-mono text-xs bg-white dark:bg-zinc-800 px-1.5 py-0.5 rounded border border-[#EBEBE8] dark:border-zinc-700">
                 owner/repo
               </code>{" "}
               slug to collect real commit history, pull requests, and issues for
@@ -199,8 +199,8 @@ export default function WorkspacePage() {
             </p>
           </div>
 
-          <div className="rounded-2xl border border-[#E5E5E2] bg-dot-grid p-4 sm:p-6 shadow-sm">
-            <div className="rounded-xl border border-[#EBEBE8] bg-white/95 backdrop-blur-sm p-4 sm:p-5 space-y-4">
+          <div className="rounded-2xl border border-[#E5E5E2] dark:border-white/10 bg-white/95 dark:bg-zinc-900/95 p-4 sm:p-6 shadow-sm">
+            <div className="rounded-xl border border-[#EBEBE8] dark:border-white/10 bg-white dark:bg-zinc-900 p-4 sm:p-5 space-y-4">
               <RepoConnectForm
                 onSubmit={handleAnalyze}
                 loading={
@@ -236,12 +236,12 @@ export default function WorkspacePage() {
 
       {/* Loading: Fetching GitHub Activity */}
       {step === "fetching_repo" && (
-        <div className="rounded-2xl border border-[#EBEBE8] bg-white p-12 shadow-sm text-center space-y-3 animate-fadeIn">
-          <div className="inline-block h-7 w-7 animate-spin rounded-full border-2 border-[#EBEBE8] border-t-[#171717]" />
-          <p className="text-sm text-[#171717] font-medium">
+        <div className="rounded-2xl border border-[#EBEBE8] dark:border-white/10 bg-white dark:bg-zinc-900/90 p-12 shadow-sm text-center space-y-3 animate-fadeIn">
+          <div className="inline-block h-7 w-7 animate-spin rounded-full border-2 border-[#EBEBE8] dark:border-zinc-700 border-t-[#171717] dark:border-t-white" />
+          <p className="text-sm text-[#171717] dark:text-white font-medium">
             Collecting live repository activity from GitHub…
           </p>
-          <p className="text-xs text-[#8A8A85]">
+          <p className="text-xs text-[#8A8A85] dark:text-zinc-400">
             Indexing commits, pull requests, issues, and contributor history.
           </p>
         </div>
@@ -249,12 +249,12 @@ export default function WorkspacePage() {
 
       {/* Loading: Synthesizing Handover Report */}
       {step === "generating_report" && (
-        <div className="rounded-2xl border border-[#EBEBE8] bg-white p-12 shadow-sm text-center space-y-3 animate-fadeIn">
-          <div className="inline-block h-7 w-7 animate-spin rounded-full border-2 border-[#EBEBE8] border-t-[#171717]" />
-          <p className="text-sm text-[#171717] font-semibold">
+        <div className="rounded-2xl border border-[#EBEBE8] dark:border-white/10 bg-white dark:bg-zinc-900/90 p-12 shadow-sm text-center space-y-3 animate-fadeIn">
+          <div className="inline-block h-7 w-7 animate-spin rounded-full border-2 border-[#EBEBE8] dark:border-zinc-700 border-t-[#171717] dark:border-t-white" />
+          <p className="text-sm text-[#171717] dark:text-white font-semibold">
             Synthesizing 5-Pillar Handover Dossier…
           </p>
-          <p className="text-xs text-[#8A8A85] max-w-md mx-auto">
+          <p className="text-xs text-[#8A8A85] dark:text-zinc-400 max-w-md mx-auto">
             Mapping contributor ownership, tracking unfinished tasks, and
             linking every insight to verifiable GitHub sources.
           </p>
@@ -380,11 +380,11 @@ export default function WorkspacePage() {
       {/* Recent Handover Dossiers */}
       {step === "idle" && recentReports.length > 0 && (
         <section className="space-y-4 pt-2 animate-fadeIn-delayed">
-          <div className="flex items-center justify-between border-b border-[#EBEBE8] pb-3">
-            <h2 className="text-xs font-mono uppercase tracking-[0.16em] text-[#6B6B67] font-semibold">
+          <div className="flex items-center justify-between border-b border-[#EBEBE8] dark:border-white/10 pb-3">
+            <h2 className="text-xs font-mono uppercase tracking-[0.16em] text-[#6B6B67] dark:text-zinc-400 font-semibold">
               Saved Handover Dossiers
             </h2>
-            <span className="text-xs text-[#8A8A85] font-mono">
+            <span className="text-xs text-[#8A8A85] dark:text-zinc-500 font-mono">
               {recentReports.length} archived
             </span>
           </div>
@@ -394,18 +394,18 @@ export default function WorkspacePage() {
               <Link
                 key={r.report_id}
                 href={`/report/${r.report_id}`}
-                className="group rounded-2xl border border-[#EBEBE8] bg-white p-5 shadow-sm hover:border-[#171717]/40 hover:shadow-md transition-all duration-300 flex items-center justify-between gap-4"
+                className="group rounded-2xl border border-[#EBEBE8] dark:border-white/10 bg-white dark:bg-zinc-900/90 p-5 shadow-sm hover:border-[#171717]/40 dark:hover:border-white/30 hover:shadow-md transition-all duration-300 flex items-center justify-between gap-4"
               >
                 <div className="space-y-1.5 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="font-semibold text-sm text-[#171717] truncate">
+                    <span className="font-semibold text-sm text-[#171717] dark:text-white truncate">
                       {r.repo_name}
                     </span>
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#F5F5F4] text-[#6B6B67] border border-[#EBEBE8]">
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-[#F5F5F4] dark:bg-zinc-800 text-[#6B6B67] dark:text-zinc-300 border border-[#EBEBE8] dark:border-zinc-700">
                       {r.generator.split(" ")[0]}
                     </span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-[#8A8A85]">
+                  <div className="flex items-center gap-2 text-xs text-[#8A8A85] dark:text-zinc-400">
                     <span>{r.insights_count} insights</span>
                     <span>·</span>
                     <span>{r.unresolved_gaps} pending gaps</span>
@@ -414,7 +414,7 @@ export default function WorkspacePage() {
                   </div>
                 </div>
 
-                <span className="text-xs font-mono text-[#6B6B67] group-hover:text-[#171717] group-hover:translate-x-1 transition-all shrink-0">
+                <span className="text-xs font-mono text-[#6B6B67] dark:text-zinc-400 group-hover:text-[#171717] dark:group-hover:text-white group-hover:translate-x-1 transition-all shrink-0">
                   View →
                 </span>
               </Link>
@@ -454,18 +454,18 @@ function CountCard({
     <div
       className={`rounded-2xl border p-4 shadow-sm ${
         accent
-          ? "border-amber-200/80 bg-amber-50/40"
-          : "border-[#EBEBE8] bg-white"
+          ? "border-amber-200/80 dark:border-amber-500/30 bg-amber-50/40 dark:bg-amber-950/20"
+          : "border-[#EBEBE8] dark:border-white/10 bg-white dark:bg-zinc-900/90"
       }`}
     >
       <p
         className={`text-2xl font-bold tracking-tight font-mono ${
-          accent ? "text-amber-800" : "text-[#171717]"
+          accent ? "text-amber-800 dark:text-amber-300" : "text-[#171717] dark:text-white"
         }`}
       >
         {value}
       </p>
-      <p className="text-xs text-[#6B6B67] mt-1">{label}</p>
+      <p className="text-xs text-[#6B6B67] dark:text-zinc-400 mt-1">{label}</p>
     </div>
   );
 }

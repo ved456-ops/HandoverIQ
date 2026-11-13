@@ -22,8 +22,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="min-h-screen flex flex-col text-[#171717] antialiased selection:bg-[#171717] selection:text-white">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const saved = localStorage.getItem('handoveriq-theme');
+                if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                  document.documentElement.classList.add('dark');
+                } else {
+                  document.documentElement.classList.remove('dark');
+                }
+              } catch (_) {}
+            `,
+          }}
+        />
+      </head>
+      <body className="min-h-screen flex flex-col text-[#171717] dark:text-[#F3F4F6] antialiased selection:bg-[#171717] selection:text-white transition-colors duration-200">
         <CurvesBackground />
         <SiteHeader />
 
