@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   getStoredUser,
   updateStoredUser,
@@ -9,31 +10,9 @@ import {
   type UserProfile,
 } from "@/lib/api";
 
-const DEFAULT_PROFILE: UserProfile = {
-  user_id: "ved-01",
-  name: "Ved Wandile",
-  email: "vedwandile2025@gmail.com",
-  role: "Full-Stack & AI Architecture",
-  organization: "Team CodeVengers",
-  bio: "Core full-stack & AI architecture developer on HandoverIQ. Building evidence-grounded engineering handovers.",
-  avatar_color: "#10b981",
-  plan_tier: "Finalist Pro Tier",
-  created_at: new Date().toISOString(),
-  last_login_at: new Date().toISOString(),
-  preferences: {
-    default_ai_provider: "gemini",
-    export_format: "markdown",
-    github_token_configured: false,
-    email_notifications: true,
-    auto_save_dossiers: true,
-  },
-  bookmarked_repos: [],
-  saved_report_ids: [],
-  recent_activity: [],
-};
-
 export default function UserAccountBadge() {
-  const [user, setUser] = useState<UserProfile>(DEFAULT_PROFILE);
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [mounted, setMounted] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
@@ -47,17 +26,13 @@ export default function UserAccountBadge() {
 
   const menuRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
+    setMounted(true);
     function loadUser() {
       const stored = getStoredUser();
-      if (stored) {
-        setUser(stored);
-      } else {
-        // Initialize default user so every visitor has the account badge experience
-        updateStoredUser(DEFAULT_PROFILE);
-        setUser(DEFAULT_PROFILE);
-      }
+      setUser(stored); // Only set if explicitly stored, NEVER auto-login
     }
 
     loadUser();
@@ -67,7 +42,7 @@ export default function UserAccountBadge() {
 
   // Sync edit form fields when entering edit mode
   useEffect(() => {
-    if (isEditing) {
+    if (isEditing && user) {
       setEditName(user.name);
       setEditEmail(user.email);
       setEditRole(user.role || "");
@@ -88,8 +63,18 @@ export default function UserAccountBadge() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Handle Logout / Sign Out
+  function handleLogout() {
+    clearStoredSession();
+    setUser(null);
+    setIsOpen(false);
+    setIsEditing(false);
+    router.push("/login");
+  }
+
   // Handle Profile Picture upload
   function handleImageUpload(e: ChangeEvent<HTMLInputElement>) {
+    if (!user) return;
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -114,6 +99,7 @@ export default function UserAccountBadge() {
   }
 
   function handleRemoveAvatar() {
+    if (!user) return;
     const updated: UserProfile = {
       ...user,
       avatar_url: undefined,
@@ -125,7 +111,7 @@ export default function UserAccountBadge() {
 
   function handleSaveProfile(e: FormEvent) {
     e.preventDefault();
-    if (!editName.trim()) return;
+    if (!user || !editName.trim()) return;
 
     const updated: UserProfile = {
       ...user,
@@ -143,6 +129,33 @@ export default function UserAccountBadge() {
     setTimeout(() => setSaveSuccess(false), 2500);
   }
 
+  if (!mounted) {
+    return <div className="h-8 w-20 rounded-full bg-black/5 dark:bg-white/5 animate-pulse" />;
+  }
+
+  // ── Case 1: Visitor is NOT logged in ──
+  // Show clean "Sign in" & "Create account" buttons
+  if (!user) {
+    return (
+      <div className="flex items-center gap-2">
+        <Link
+          href="/login"
+          className="inline-flex items-center rounded-full border border-black/10 dark:border-white/15 bg-white/80 dark:bg-zinc-800/80 px-3.5 py-1.5 text-xs font-semibold text-[#171717] dark:text-white hover:border-[#171717] dark:hover:border-white/40 transition-all shadow-sm"
+        >
+          Sign in
+        </Link>
+        <Link
+          href="/login"
+          className="hidden sm:inline-flex items-center gap-1.5 rounded-full bg-[#171717] dark:bg-indigo-600 px-3.5 py-1.5 text-xs font-semibold text-white shadow-sm hover:bg-black dark:hover:bg-indigo-500 transition-all"
+        >
+          <span>Create account</span>
+          <span aria-hidden="true">→</span>
+        </Link>
+      </div>
+    );
+  }
+
+  // ── Case 2: User IS logged in ──
   const initials = user.name
     .split(" ")
     .map((p) => p[0])
@@ -157,7 +170,7 @@ export default function UserAccountBadge() {
         type="button"
         onClick={() => setIsOpen((prev) => !prev)}
         aria-label="User Account Menu"
-        title={`${user.name} (${user.organization || "Team CodeVengers"})`}
+        title={`${user.name} (${user.organization || "HandoverIQ"})`}
         className="group relative flex items-center gap-2 rounded-full border border-black/10 dark:border-white/15 bg-white/90 dark:bg-zinc-900/90 p-1 pl-1 pr-2.5 shadow-sm hover:border-black/25 dark:hover:border-white/30 transition-all focus:outline-none focus:ring-2 focus:ring-emerald-500/20"
       >
         <div className="relative h-7 w-7 rounded-full overflow-hidden shrink-0 border border-black/10 dark:border-white/10 bg-zinc-100 dark:bg-zinc-800">
@@ -246,7 +259,7 @@ export default function UserAccountBadge() {
                       {user.name}
                     </h3>
                     <span className="text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-bold shrink-0">
-                      Finalist
+                      {user.plan_tier || "Active"}
                     </span>
                   </div>
 
@@ -255,7 +268,7 @@ export default function UserAccountBadge() {
                   </p>
 
                   <p className="text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
-                    {user.role} · {user.organization}
+                    {user.role} {user.organization ? `· ${user.organization}` : ""}
                   </p>
                 </div>
               </div>
@@ -307,7 +320,7 @@ export default function UserAccountBadge() {
                 </Link>
               </div>
 
-              {/* Navigation links */}
+              {/* Navigation links & Logout Action */}
               <div className="border-t border-black/[0.06] dark:border-white/10 pt-2 flex flex-col gap-1 text-xs">
                 <Link
                   href="/account"
@@ -319,17 +332,29 @@ export default function UserAccountBadge() {
                     {user.saved_report_ids?.length || 0}
                   </span>
                 </Link>
-                <button
-                  type="button"
+
+                {/* Change Account / Switch User */}
+                <Link
+                  href="/login"
                   onClick={() => {
                     clearStoredSession();
-                    setUser(DEFAULT_PROFILE);
-                    updateStoredUser(DEFAULT_PROFILE);
+                    setUser(null);
                     setIsOpen(false);
                   }}
-                  className="w-full text-left rounded-lg px-2.5 py-1.5 text-xs text-zinc-500 hover:text-zinc-800 dark:hover:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+                  className="rounded-lg px-2.5 py-1.5 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors flex items-center justify-between text-indigo-600 dark:text-indigo-400 font-medium"
                 >
-                  Reset Profile to Default
+                  <span>Switch / Change Account</span>
+                  <span>⇄</span>
+                </Link>
+
+                {/* Log Out Button */}
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="w-full text-left rounded-lg px-2.5 py-2 text-xs font-semibold text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors flex items-center justify-between"
+                >
+                  <span>Log Out of HandoverIQ</span>
+                  <span>⎋</span>
                 </button>
               </div>
             </div>
