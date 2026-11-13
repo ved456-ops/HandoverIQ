@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import Logo from "@/components/Logo";
+import InteractiveHeroPreview from "@/components/InteractiveHeroPreview";
 
 /* ── Illustrative content (clearly labelled as examples in the UI) ── */
 
@@ -145,41 +146,9 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Hero visual: real photo + floating report card */}
+        {/* Hero visual: Greptile-style interactive matrix terminal */}
         <div className="relative animate-fadeIn-delayed">
-          <div className="relative overflow-hidden rounded-[28px] border border-black/[0.06] shadow-2xl shadow-black/10 aspect-[4/3.4]">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/images/team.jpg"
-              alt="Engineering team working together at laptops"
-              className="h-full w-full object-cover scale-105 hover:scale-100 transition-transform duration-[2000ms]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-          </div>
-
-          {/* Floating card — illustrative */}
-          <div className="absolute -bottom-8 -left-4 sm:-left-10 w-[78%] sm:w-[64%] rounded-2xl border border-black/[0.06] bg-white/95 backdrop-blur p-4 shadow-xl animate-float">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] font-semibold uppercase tracking-wider text-[#8A8A85]">
-                Illustrative example
-              </span>
-              <span className="text-[10px] rounded-full border border-red-200 bg-red-50 px-2 py-0.5 text-red-700 font-medium">
-                critical
-              </span>
-            </div>
-            <p className="text-sm font-semibold leading-snug">
-              Auth middleware owned by one departing engineer
-            </p>
-            <div className="mt-3 flex gap-1.5">
-              <Chip>commit 7f3a91c</Chip>
-              <Chip>PR #142</Chip>
-            </div>
-          </div>
-
-          <div className="hidden sm:flex absolute -top-5 -right-4 items-center gap-2 rounded-full border border-black/[0.06] bg-white/95 px-3.5 py-2 shadow-lg">
-            <Logo variant="mark" heightClass="h-5" />
-            <span className="text-xs font-medium">Report ready</span>
-          </div>
+          <InteractiveHeroPreview />
         </div>
       </section>
 

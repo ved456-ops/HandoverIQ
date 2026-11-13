@@ -1,7 +1,9 @@
+import InteractiveCodeMatrix from "@/components/InteractiveCodeMatrix";
+
 /**
  * CurvesBackground — fixed, decorative page backdrop.
- * Near-white canvas with soft drifting contour curves and two faint
- * colour washes. Purely decorative (aria-hidden, pointer-events-none).
+ * Combines soft contour curves with an interactive code matrix
+ * that illuminates binary digits and git hashes under the mouse cursor.
  */
 export default function CurvesBackground() {
   return (
@@ -12,9 +14,12 @@ export default function CurvesBackground() {
       {/* Base canvas */}
       <div className="absolute inset-0 bg-[#FBFBFA]" />
 
+      {/* Interactive binary & git matrix reactive to mouse cursor */}
+      <InteractiveCodeMatrix theme="light" />
+
       {/* Soft colour washes */}
-      <div className="absolute -top-48 -left-40 h-[560px] w-[560px] rounded-full bg-[#E9ECF5] opacity-70 blur-3xl animate-drift" />
-      <div className="absolute top-1/3 -right-48 h-[520px] w-[520px] rounded-full bg-[#F3EEE6] opacity-70 blur-3xl animate-drift-reverse" />
+      <div className="absolute -top-48 -left-40 h-[560px] w-[560px] rounded-full bg-[#E9ECF5] opacity-50 blur-3xl animate-drift" />
+      <div className="absolute top-1/3 -right-48 h-[520px] w-[520px] rounded-full bg-[#F3EEE6] opacity-50 blur-3xl animate-drift-reverse" />
 
       {/* Contour curves */}
       <svg
