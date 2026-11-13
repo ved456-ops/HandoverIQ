@@ -138,9 +138,9 @@ export default function MascotGuide() {
     <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 flex flex-col items-end pointer-events-none">
       {/* Speech Bubble Card when Open */}
       {isOpen && (
-        <div className="pointer-events-auto mb-3 w-[calc(100vw-2rem)] sm:w-[410px] rounded-3xl border border-[#171717]/15 bg-white/95 backdrop-blur-xl p-5 sm:p-6 shadow-[0_20px_60px_rgba(0,0,0,0.16)] animate-fadeIn">
+        <div className="pointer-events-auto mb-3 w-[calc(100vw-2rem)] sm:w-[410px] rounded-3xl border border-[#171717]/15 dark:border-white/15 bg-white/95 dark:bg-[#0C1017]/95 backdrop-blur-xl p-5 sm:p-6 shadow-[0_20px_60px_rgba(0,0,0,0.16)] dark:shadow-[0_20px_60px_rgba(0,0,0,0.6)] animate-fadeIn text-[#171717] dark:text-zinc-100">
           {/* Top Bar: Mode Switcher + Prominent Skip Button */}
-          <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#F0EFEA]">
+          <div className="flex items-center justify-between gap-2 pb-3 border-b border-[#F0EFEA] dark:border-white/10">
             <div className="flex items-center gap-1.5">
               <button
                 type="button"
@@ -150,8 +150,8 @@ export default function MascotGuide() {
                 }}
                 className={`rounded-full px-2.5 py-1 text-[11px] font-semibold transition-all ${
                   mode === "tour"
-                    ? "bg-[#171717] text-white"
-                    : "bg-[#F4F3EF] text-[#6B6B67] hover:text-[#171717]"
+                    ? "bg-[#171717] dark:bg-indigo-600 text-white"
+                    : "bg-[#F4F3EF] dark:bg-zinc-800 text-[#6B6B67] dark:text-zinc-400 hover:text-[#171717] dark:hover:text-white"
                 }`}
               >
                 {mode === "tour" ? currentStep.badge : "Guided Tour"}
@@ -161,8 +161,8 @@ export default function MascotGuide() {
                 onClick={() => setMode("faq")}
                 className={`rounded-full px-2.5 py-1 text-[11px] font-semibold transition-all ${
                   mode === "faq"
-                    ? "bg-[#171717] text-white"
-                    : "bg-[#F4F3EF] text-[#6B6B67] hover:text-[#171717]"
+                    ? "bg-[#171717] dark:bg-indigo-600 text-white"
+                    : "bg-[#F4F3EF] dark:bg-zinc-800 text-[#6B6B67] dark:text-zinc-400 hover:text-[#171717] dark:hover:text-white"
                 }`}
               >
                 Judge Q&A
@@ -172,7 +172,7 @@ export default function MascotGuide() {
             <button
               type="button"
               onClick={handleSkipOrClose}
-              className="inline-flex items-center gap-1 rounded-full border border-[#E5E5E2] bg-[#FBFBFA] px-3 py-1 text-[11px] font-semibold text-[#6B6B67] hover:border-[#171717] hover:text-[#171717] transition-all"
+              className="inline-flex items-center gap-1 rounded-full border border-[#E5E5E2] dark:border-white/10 bg-[#FBFBFA] dark:bg-zinc-800 px-3 py-1 text-[11px] font-semibold text-[#6B6B67] dark:text-zinc-400 hover:border-[#171717] dark:hover:border-white/30 hover:text-[#171717] dark:hover:text-white transition-all"
               title="Skip tutorial"
             >
               <span>Skip Tour</span>
@@ -186,7 +186,7 @@ export default function MascotGuide() {
               {/* Mascot + Title Row */}
               <div className="flex items-start gap-3.5">
                 <div className="relative shrink-0">
-                  <div className="h-16 w-16 rounded-2xl bg-gradient-to-b from-purple-50 to-amber-50/60 border border-purple-200/60 flex items-center justify-center p-1 shadow-sm">
+                  <div className="h-16 w-16 rounded-2xl bg-gradient-to-b from-purple-50 to-amber-50/60 dark:from-purple-950/40 dark:to-zinc-900 border border-purple-200/60 dark:border-purple-800/60 flex items-center justify-center p-1 shadow-sm">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src="/mascot.png"
@@ -200,17 +200,17 @@ export default function MascotGuide() {
                 </div>
 
                 <div className="space-y-1 min-w-0">
-                  <h3 className="text-sm sm:text-base font-bold text-[#171717] leading-snug">
+                  <h3 className="text-sm sm:text-base font-bold text-[#171717] dark:text-white leading-snug">
                     {currentStep.title}
                   </h3>
-                  <span className="inline-block rounded-md bg-purple-50 border border-purple-200/70 px-2 py-0.5 text-[10px] font-mono font-medium text-purple-900">
+                  <span className="inline-block rounded-md bg-purple-50 dark:bg-purple-950/60 border border-purple-200/70 dark:border-purple-800 px-2 py-0.5 text-[10px] font-mono font-medium text-purple-900 dark:text-purple-300">
                     {currentStep.highlightTag}
                   </span>
                 </div>
               </div>
 
               {/* Main Message */}
-              <p className="text-xs sm:text-[13px] text-[#4A4A47] leading-relaxed">
+              <p className="text-xs sm:text-[13px] text-[#4A4A47] dark:text-zinc-300 leading-relaxed">
                 {currentStep.message}
               </p>
 
@@ -220,7 +220,7 @@ export default function MascotGuide() {
                   <button
                     type="button"
                     onClick={() => handleNavigate(currentStep.actionHref!)}
-                    className="inline-flex items-center gap-1.5 rounded-xl border border-[#E5E5E2] bg-[#FBFBFA] px-3 py-1.5 text-xs font-semibold text-[#171717] hover:border-[#171717] transition-all"
+                    className="inline-flex items-center gap-1.5 rounded-xl border border-[#E5E5E2] dark:border-white/10 bg-[#FBFBFA] dark:bg-zinc-800 px-3 py-1.5 text-xs font-semibold text-[#171717] dark:text-white hover:border-[#171717] dark:hover:border-white/30 transition-all"
                   >
                     <span>{currentStep.actionLabel}</span>
                   </button>
@@ -236,7 +236,7 @@ export default function MascotGuide() {
                       handleSkipOrClose();
                       router.push("/workspace");
                     }}
-                    className="rounded-xl bg-[#171717] px-3 py-2.5 text-xs font-semibold text-white hover:bg-black transition-all text-center"
+                    className="rounded-xl bg-[#171717] dark:bg-indigo-600 px-3 py-2.5 text-xs font-semibold text-white hover:bg-black dark:hover:bg-indigo-500 transition-all text-center"
                   >
                     Open Workspace →
                   </button>
@@ -246,7 +246,7 @@ export default function MascotGuide() {
                       handleSkipOrClose();
                       router.push("/login");
                     }}
-                    className="rounded-xl border border-[#171717] bg-white px-3 py-2.5 text-xs font-semibold text-[#171717] hover:bg-[#F4F3EF] transition-all text-center"
+                    className="rounded-xl border border-[#171717] dark:border-white/20 bg-white dark:bg-zinc-800 px-3 py-2.5 text-xs font-semibold text-[#171717] dark:text-white hover:bg-[#F4F3EF] dark:hover:bg-zinc-700 transition-all text-center"
                   >
                     Demo Account →
                   </button>
@@ -254,7 +254,7 @@ export default function MascotGuide() {
               )}
 
               {/* Step Progress Dots & Navigation Controls */}
-              <div className="pt-3 border-t border-[#F0EFEA] flex items-center justify-between gap-2">
+              <div className="pt-3 border-t border-[#F0EFEA] dark:border-white/10 flex items-center justify-between gap-2">
                 {/* Progress Dots */}
                 <div className="flex items-center gap-1.5">
                   {TOUR_STEPS.map((_, idx) => (
@@ -265,8 +265,8 @@ export default function MascotGuide() {
                       aria-label={`Go to step ${idx + 1}`}
                       className={`h-2 rounded-full transition-all ${
                         idx === stepIndex
-                          ? "w-6 bg-[#171717]"
-                          : "w-2 bg-[#D6D5D0] hover:bg-[#8A8A85]"
+                          ? "w-6 bg-[#171717] dark:bg-white"
+                          : "w-2 bg-[#D6D5D0] dark:bg-zinc-700 hover:bg-[#8A8A85]"
                       }`}
                     />
                   ))}
@@ -278,7 +278,7 @@ export default function MascotGuide() {
                     <button
                       type="button"
                       onClick={handlePrev}
-                      className="rounded-full border border-[#E5E5E2] bg-white px-3 py-1.5 text-xs font-medium text-[#4A4A47] hover:border-[#171717] hover:text-[#171717] transition-colors"
+                      className="rounded-full border border-[#E5E5E2] dark:border-white/10 bg-white dark:bg-zinc-800 px-3 py-1.5 text-xs font-medium text-[#4A4A47] dark:text-zinc-300 hover:border-[#171717] dark:hover:border-white/30 hover:text-[#171717] dark:hover:text-white transition-colors"
                     >
                       ← Back
                     </button>
@@ -286,7 +286,7 @@ export default function MascotGuide() {
                   <button
                     type="button"
                     onClick={handleNext}
-                    className="rounded-full bg-[#171717] px-4 py-1.5 text-xs font-semibold text-white hover:bg-black transition-all shadow-sm"
+                    className="rounded-full bg-[#171717] dark:bg-indigo-600 px-4 py-1.5 text-xs font-semibold text-white hover:bg-black dark:hover:bg-indigo-500 transition-all shadow-sm"
                   >
                     {stepIndex < TOUR_STEPS.length - 1
                       ? "Next →"
@@ -373,10 +373,10 @@ export default function MascotGuide() {
       <button
         type="button"
         onClick={() => (isOpen ? handleSkipOrClose() : handleReopen())}
-        className="pointer-events-auto group flex items-center gap-2.5 rounded-full border border-[#171717]/15 bg-white/95 backdrop-blur-md pl-2 pr-4 py-1.5 shadow-xl hover:shadow-2xl hover:border-[#171717] transition-all hover:-translate-y-0.5"
+        className="pointer-events-auto group flex items-center gap-2.5 rounded-full border border-[#171717]/15 dark:border-white/20 bg-white/95 dark:bg-[#0C1017]/95 backdrop-blur-md pl-2 pr-4 py-1.5 shadow-xl hover:shadow-2xl hover:border-[#171717] dark:hover:border-white/40 transition-all hover:-translate-y-0.5"
         aria-label="Toggle Archon Guide"
       >
-        <div className="relative h-10 w-10 rounded-full bg-gradient-to-b from-purple-100 to-amber-50 border border-purple-200 flex items-center justify-center overflow-hidden shrink-0">
+        <div className="relative h-10 w-10 rounded-full bg-gradient-to-b from-purple-100 to-amber-50 dark:from-purple-950/60 dark:to-zinc-900 border border-purple-200 dark:border-purple-800/60 flex items-center justify-center overflow-hidden shrink-0">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/mascot.png"
@@ -387,11 +387,11 @@ export default function MascotGuide() {
         <div className="text-left">
           <div className="flex items-center gap-1.5">
             <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span className="text-xs font-bold text-[#171717]">
+            <span className="text-xs font-bold text-[#171717] dark:text-white">
               {isOpen ? "Hide Guide" : "Project Tour"}
             </span>
           </div>
-          <p className="text-[10px] text-[#6B6B67] font-mono">
+          <p className="text-[10px] text-[#6B6B67] dark:text-zinc-400 font-mono">
             {isOpen ? "Click to minimize" : "Judge's 20s Guide"}
           </p>
         </div>
