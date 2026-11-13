@@ -24,6 +24,7 @@ import RepoConnectForm from "@/components/RepoConnectForm";
 import RepoSummaryCard from "@/components/RepoSummaryCard";
 import ActivityTabs from "@/components/ActivityTabs";
 import HandoverReportView from "@/components/HandoverReportView";
+import RepoComparisonSection from "@/components/RepoComparisonSection";
 import { relativeDate } from "@/lib/utils";
 
 type BackendStatus = "checking" | "ok" | "error";
@@ -530,6 +531,11 @@ export default function WorkspacePage() {
         <div className="space-y-6 animate-fadeIn">
           <HandoverReportView report={handoverReport} onReset={handleReset} />
         </div>
+      )}
+
+      {/* ── REPOSITORY READINESS COMPARISON & BENCHMARK MATRIX ── */}
+      {step === "idle" && (
+        <RepoComparisonSection />
       )}
 
       {/* Recent Handover Dossiers */}
