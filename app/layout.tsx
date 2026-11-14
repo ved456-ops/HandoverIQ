@@ -23,19 +23,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" suppressHydrationWarning>
       <head>
         <script
           dangerouslySetInnerHTML={{
             __html: `
               try {
                 const saved = localStorage.getItem('handoveriq-theme');
-                if (saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-                  document.documentElement.classList.add('dark');
-                } else {
+                if (saved === 'light') {
                   document.documentElement.classList.remove('dark');
+                } else {
+                  document.documentElement.classList.add('dark');
                 }
-              } catch (_) {}
+              } catch (_) {
+                document.documentElement.classList.add('dark');
+              }
             `,
           }}
         />
@@ -69,10 +71,9 @@ export default function RootLayout({
                 </h4>
               </div>
 
-              {/* Team Members Chips (Ved 1st) */}
+              {/* Team Members Chips (Uniform styling) */}
               <div className="flex flex-wrap items-center justify-center gap-2">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/40 text-xs font-semibold text-emerald-300 shadow-sm font-mono">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-medium text-white shadow-sm font-mono">
                   Ved Wandile
                 </span>
                 <span className="inline-flex items-center px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-medium text-white shadow-sm font-mono">
@@ -124,28 +125,19 @@ export default function RootLayout({
                 <span>Developers</span>
               </p>
 
-              {/* Cool Developer Badges (First Names Only, Ved 1st) */}
+              {/* Core Developer Badges (First Names Only, Uniform styling) */}
               <div className="space-y-1.5">
                 <span className="text-[10px] font-mono uppercase tracking-wider text-zinc-400 dark:text-zinc-500 block">
                   Core Engineers
                 </span>
                 <div className="flex flex-wrap gap-1.5">
-                  {[
-                    { name: "Ved", isLead: true },
-                    { name: "Diptesh", isLead: false },
-                    { name: "Prachi", isLead: false },
-                    { name: "Ritisha", isLead: false },
-                  ].map((dev) => (
+                  {["Ved", "Diptesh", "Prachi", "Ritisha"].map((name) => (
                     <span
-                      key={dev.name}
-                      className={`inline-flex items-center gap-1 font-mono text-[11px] px-2.5 py-1 rounded-lg border transition-all ${
-                        dev.isLead
-                          ? "bg-emerald-50 dark:bg-emerald-950/60 border-emerald-300 dark:border-emerald-700/80 text-emerald-800 dark:text-emerald-300 font-bold shadow-sm"
-                          : "bg-black/[0.03] dark:bg-zinc-800/80 border-black/10 dark:border-white/10 text-zinc-700 dark:text-zinc-300 font-medium hover:border-black/25 dark:hover:border-white/20"
-                      }`}
+                      key={name}
+                      className="inline-flex items-center gap-1 font-mono text-[11px] px-2.5 py-1 rounded-lg border transition-all bg-black/[0.03] dark:bg-zinc-800/80 border-black/10 dark:border-white/10 text-zinc-700 dark:text-zinc-300 font-medium hover:border-black/25 dark:hover:border-white/20"
                     >
                       <span className="text-[10px] text-zinc-400">@</span>
-                      <span>{dev.name}</span>
+                      <span>{name}</span>
                     </span>
                   ))}
                 </div>

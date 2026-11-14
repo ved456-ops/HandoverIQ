@@ -3,26 +3,19 @@
 import { useEffect, useState } from "react";
 
 export default function ThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [theme, setTheme] = useState<"light" | "dark">("dark");
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
     const saved = localStorage.getItem("handoveriq-theme");
-    if (saved === "dark" || saved === "light") {
-      setTheme(saved);
-      if (saved === "dark") {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
+    if (saved === "light") {
+      setTheme("light");
+      document.documentElement.classList.remove("dark");
     } else {
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      const initial = prefersDark ? "dark" : "light";
-      setTheme(initial);
-      if (initial === "dark") {
-        document.documentElement.classList.add("dark");
-      }
+      // Default to dark mode for all users
+      setTheme("dark");
+      document.documentElement.classList.add("dark");
     }
   }, []);
 
